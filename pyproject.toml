@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "service-cert"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiohttp = "^3.10.10"
+sqlalchemy = "^2.0.36"
+uvloop = "^0.21.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pytest-asyncio = "^0.24.0"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/"]
+addopts = [
+  "-p no:cacheprovider",
+]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
