@@ -35,7 +35,7 @@ jobs:
 
       - name: Provide migrations
         run: |
-          make alembic-upgrade-head
+          poetry run alembic upgrade head
 
       - name: Run tests
         run: poetry run pytest
