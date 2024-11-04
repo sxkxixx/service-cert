@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: service_cert
+      POSTGRES_USER: service_cert
+      POSTGRES_PASSWORD: service_cert
+    volumes:
+      - service-sert-db-data:/var/lib/postgresql/data
+
+
+volumes:
+  service-sert-db-data:

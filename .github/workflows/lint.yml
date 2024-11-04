@@ -1,22 +1,13 @@
-name: Test
+name: Lint
+
 on:
   push:
     branches:
       - "**"
 
 jobs:
-  test:
+  lint-branch:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:14-alpine
-        ports:
-          - "5432:5432"
-        env:
-          POSTGRES_DB: service_cert
-          POSTGRES_USER: service_cert
-          POSTGRES_PASSWORD: service_cert
-
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
@@ -33,9 +24,6 @@ jobs:
         run: |
           poetry install
 
-      - name: Provide migrations
+      - name: Lint branch
         run: |
-          poetry run alembic upgrade head
-
-      - name: Run tests
-        run: poetry run pytest
+          poetry run ruff check

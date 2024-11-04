@@ -1,5 +1,6 @@
 import uvloop
 from aiohttp import web
+
 from infrastructure.logging import setup_logging
 from web import middleware
 

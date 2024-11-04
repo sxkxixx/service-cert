@@ -1,0 +1,9 @@
+default_stages: [ pre-commit ]
+repos:
+  - repo: local
+    hooks:
+      - id: lint-branch
+        name: lint
+        entry: ruff check
+        types: [ python ]
+        language: system
