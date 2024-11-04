@@ -1,0 +1,6 @@
+.idea
+.gitignore
+.github
+.pre-commit-config.yaml
+docker-compose.yml
+tests/
