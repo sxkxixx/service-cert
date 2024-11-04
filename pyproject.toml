@@ -19,11 +19,24 @@ uvloop = "^0.21.0"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
 pytest-asyncio = "^0.24.0"
+ruff = "^0.7.2"
+pre-commit = "^4.0.1"
 
 [tool.pytest.ini_options]
 testpaths = ["tests/"]
 addopts = [
   "-p no:cacheprovider",
+  "-p no:warnings"
 ]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
+
+
+[tool.ruff]
+line-length = 100
+
+
+[tool.ruff.lint]
+
+[tool.ruff.format]
+quote-style = "single"

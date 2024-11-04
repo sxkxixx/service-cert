@@ -1,7 +1,5 @@
 from logging import config as logging_config
 
-from .json_formatter import JsonFormatter
-
 __all__ = [
     'setup_logging',
 ]
@@ -26,7 +24,7 @@ def setup_logging():
                 'level': 'INFO',
                 'handlers': ['default'],
             },
-        }
+        },
     }
 
     logging_config.dictConfig(config)

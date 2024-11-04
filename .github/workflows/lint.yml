@@ -1,0 +1,29 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  lint-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies
+        run: |
+          poetry install
+
+      - name: Lint branch
+        run: |
+          poetry run ruff check
