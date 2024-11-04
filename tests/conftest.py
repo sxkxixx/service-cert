@@ -2,14 +2,7 @@ import pytest
 import sqlalchemy.event
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.db.base import async_engine, Base
-
-
-@pytest.fixture(scope='session', autouse=True)
-async def setup_db():
-    async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-        yield
+from common.db.base import async_engine
 
 
 @pytest.fixture

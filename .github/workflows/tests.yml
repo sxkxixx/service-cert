@@ -33,5 +33,9 @@ jobs:
         run: |
           poetry install
 
+      - name: Provide migrations
+        run: |
+          make alembic-upgrade-head
+
       - name: Run tests
-        run: pytest
+        run: poetry run pytest
