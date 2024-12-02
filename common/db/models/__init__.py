@@ -1,6 +1,6 @@
-from .release import Release
 from .service import Service
-from .template import Requirement, Template, TemplateRequirementAssociation
+from .release import Release
+from .template import Template, TemplateRequirementAssociation, Requirement
 
 __all__ = [
     'Service',

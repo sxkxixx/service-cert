@@ -4,8 +4,8 @@ import uuid
 from datetime import datetime
 from typing import AsyncIterator
 
-from sqlalchemy import TIMESTAMP, MetaData, func
-from sqlalchemy.ext import asyncio
+from sqlalchemy import TIMESTAMP, func, MetaData
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, declared_attr, mapped_column
 
 from infrastructure.config import app_config
@@ -34,18 +34,17 @@ class BaseModel(DeclarativeBase, TimestampMixin):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
 
 
-async_engine = asyncio.create_async_engine(
+async_engine = create_async_engine(
     url=app_config.db.dsn,
     echo=app_config.db.echo,
-    future=True,
 )
 
-AsyncSession = asyncio.async_sessionmaker(async_engine, expire_on_commit=False)
+session_factory = async_sessionmaker(async_engine, expire_on_commit=False)
 
 
 @contextlib.asynccontextmanager
-async def transaction() -> AsyncIterator[asyncio.AsyncSession]:
-    async with AsyncSession() as session:
+async def transaction() -> AsyncIterator[AsyncSession]:
+    async with session_factory() as session:
         try:
             yield session
         except Exception:
