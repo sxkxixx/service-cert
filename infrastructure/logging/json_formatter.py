@@ -9,13 +9,13 @@ class JsonFormatter(Formatter):
     def format(self, record: LogRecord):
         data = {
             '@message': record.getMessage(),
-            '@x-request-id': context.x_request_id,
+            '@x-request-id': context.x_request_id.get(None),
         }
         message = {
-            '@timestamp': datetime.datetime.now(),
+            '@timestamp': datetime.datetime.now().isoformat(),
             '@data': data,
             '@logger': record.name,
-            '@level': record.levelname,
+            '@level': record.levelname.upper(),
         }
         if record.exc_text:
             message['exception'] = record.exc_text

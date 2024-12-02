@@ -1,5 +1,11 @@
-from .fake_model import FakeModel
+from .service import Service
+from .release import Release
+from .template import Template, TemplateRequirementAssociation, Requirement
 
 __all__ = [
-    'FakeModel',
+    'Service',
+    'Release',
+    'Template',
+    'TemplateRequirementAssociation',
+    'Requirement',
 ]
