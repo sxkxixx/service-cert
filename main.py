@@ -2,7 +2,6 @@ import uvloop
 from aiohttp import web
 
 from infrastructure.logging import setup_logging
-from web.jrpc_methods import entrypoint
 from web import middleware
 from web.jrpc_methods import entrypoint
 

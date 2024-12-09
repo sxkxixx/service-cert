@@ -15,12 +15,7 @@ async def test_client(aiohttp_client) -> TestClient:
 
 
 def rpc_request_body(method: str, params: dict | None) -> dict:
-    return {
-        "jsonrpc": "2.0",
-        "id": str(uuid.uuid4()),
-        "method": method,
-        "params": params or {}
-    }
+    return {'jsonrpc': '2.0', 'id': str(uuid.uuid4()), 'method': method, 'params': params or {}}
 
 
 class JSONRPCResponse(dict):

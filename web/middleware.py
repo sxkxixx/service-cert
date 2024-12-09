@@ -14,7 +14,9 @@ async def set_context(request: web.Request, handler: typing.Callable) -> typing.
 
 
 @web.middleware
-async def handle_pydantic_validation_error(request: web.Request, handler: typing.Callable) -> typing.Any:
+async def handle_pydantic_validation_error(
+    request: web.Request, handler: typing.Callable
+) -> typing.Any:
     try:
         return await handler(request)
     except pydantic.ValidationError as exc:
