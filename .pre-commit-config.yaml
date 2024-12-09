@@ -2,6 +2,12 @@ default_stages: [ pre-commit ]
 repos:
   - repo: local
     hooks:
+      - id: lint-with-fix
+        name: fix
+        entry: ruff check --select I --fix
+        types: [ python ]
+        language: system
+
       - id: lint-branch
         name: lint
         entry: ruff check
