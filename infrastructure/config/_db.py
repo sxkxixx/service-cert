@@ -7,7 +7,7 @@ class DatabaseConfig(BaseModel):
     POSTGRES_DB: str = 'service_cert'
     POSTGRES_PASSWORD: str = 'service_cert'
     POSTGRES_PORT: int = 5432
-    echo: bool = False
+    echo: bool = True
 
     @computed_field
     @property

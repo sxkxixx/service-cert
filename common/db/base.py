@@ -1,11 +1,18 @@
+import contextlib
+import logging
+import uuid
 from datetime import datetime
+from typing import AsyncIterator
 
-from sqlalchemy import MetaData, TIMESTAMP, func
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-from sqlalchemy.orm import DeclarativeBase, declared_attr, Mapped, mapped_column
+from sqlalchemy import TIMESTAMP, MetaData, func
+from sqlalchemy.ext import asyncio
+from sqlalchemy.orm import DeclarativeBase, Mapped, declared_attr, mapped_column
+
 from infrastructure.config import app_config
 
 metadata = MetaData()
+
+logger = logging.getLogger(__name__)
 
 
 class TimestampMixin:
@@ -21,13 +28,30 @@ class TimestampMixin:
             )
 
 
-class Base(DeclarativeBase, TimestampMixin):
+class BaseModel(DeclarativeBase, TimestampMixin):
     metadata = metadata
 
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
 
-async_engine = create_async_engine(
+
+async_engine = asyncio.create_async_engine(
     url=app_config.db.dsn,
     echo=app_config.db.echo,
+    future=True,
 )
 
-session = async_sessionmaker(async_engine, expire_on_commit=False)
+AsyncSession = asyncio.async_sessionmaker(async_engine, expire_on_commit=False)
+
+
+@contextlib.asynccontextmanager
+async def transaction() -> AsyncIterator[asyncio.AsyncSession]:
+    async with AsyncSession() as session:
+        try:
+            yield session
+        except Exception:
+            await session.rollback()
+            logger.exception('Transaction rollback')
+            raise
+        else:
+            logger.debug('Transaction commit')
+            await session.commit()
