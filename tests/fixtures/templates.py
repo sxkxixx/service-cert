@@ -17,10 +17,6 @@ class TemplateFactory(CustomSQLAlchemyFactory[db.Template]):
     __model__ = db.Template
     __async_persistence__ = AsyncTemplatePersistence
 
-    @classmethod
-    def releases(cls) -> list:
-        return []
-
 
 @pytest.fixture()
 async def template() -> db.Template:
