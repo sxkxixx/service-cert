@@ -31,5 +31,16 @@ async def test_positive_limit_zero_offset(
             'id': str(template.id),
             'name': template.name,
             'requirements': [],
-        }
+        },
     ]
+
+
+async def test_offset_more_than_total_count(
+    jrpc_client,
+    template: db.Template,
+) -> None:
+    response = await jrpc_client(
+        method='get_template_list', params={'batch': {'offset': 2, 'limit': 1}}
+    )
+    assert response.success
+    assert response.result == []
