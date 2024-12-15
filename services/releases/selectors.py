@@ -8,11 +8,7 @@ async def select_releases(
     offset: int,
     limit: int,
 ) -> list[db.Release]:
-    stmt = (
-        sqlalchemy.select(db.Release)
-        .offset(offset=offset)
-        .limit(limit=limit)
-    )
+    stmt = sqlalchemy.select(db.Release).offset(offset=offset).limit(limit=limit)
 
     if name is not None:
         stmt = stmt.filter(db.Release.name.like(name))

@@ -1,6 +1,6 @@
-from ._rpc_server import rpc_server
+from ._rpc_server import entrypoint
 
 
-@rpc_server.method()
+@entrypoint.method()
 async def create_project():
     pass

@@ -1,3 +1,5 @@
+import uuid
+
 import sqlalchemy
 from sqlalchemy.orm import selectinload
 
@@ -14,3 +16,11 @@ async def get_services(offset: int, limit: int) -> list[db.Service]:
         )
         result = await session.execute(stmt)
     return result.scalars().all()
+
+
+async def get_service(service_id: uuid.UUID) -> db.Service | None:
+    query = sqlalchemy.select(db.Service).filter(db.Service.id == service_id)
+
+    async with db.AsyncSession() as session:
+        service = await session.scalar(statement=query)
+    return service

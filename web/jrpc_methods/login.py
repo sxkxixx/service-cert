@@ -1,8 +1,8 @@
 from common import schemas
 
-from ._rpc_server import rpc_server
+from ._rpc_server import entrypoint
 
 
-@rpc_server.method()
+@entrypoint.method()
 async def login(user: schemas.user.AuthUser):
     pass

@@ -3,10 +3,13 @@ import uuid
 import pydantic
 
 
-class ServiceResponse(pydantic.BaseModel):
-    id: uuid.UUID
+class ServiceCreateRequest(pydantic.BaseModel):
     name: str
     description: str | None
+
+
+class ServiceResponse(ServiceCreateRequest):
+    id: uuid.UUID
     confluence_page_link: str | None
 
 

@@ -2,15 +2,16 @@ import typing
 import uuid
 
 import pytest
-from aiohttp.test_utils import TestClient
+from fastapi.testclient import TestClient
+from httpx import ASGITransport, AsyncClient
 
 from main import build_application
 
 
 @pytest.fixture()
-async def test_client(aiohttp_client) -> TestClient:
+async def test_client() -> AsyncClient:
     app = build_application()
-    client = await aiohttp_client(app)
+    client = AsyncClient(transport=ASGITransport(app=app), base_url='http://test')
     yield client
 
 
@@ -37,7 +38,7 @@ class JSONRPCResponse(dict):
 
 
 @pytest.fixture()
-def jrpc_client(test_client: TestClient) -> typing.Callable:
+def jrpc_client(test_client: AsyncClient) -> typing.Callable:
     async def _jrpc_request(
         *,
         method: str,
@@ -46,11 +47,10 @@ def jrpc_client(test_client: TestClient) -> typing.Callable:
     ) -> JSONRPCResponse:
         data = rpc_request_body(method=method, params=params)
         response = await test_client.post(
-            path='/api/v1',
+            url='/api/v1',
             json=data,
             headers=headers,
         )
-        json = await response.json()
-        return JSONRPCResponse(**json)
+        return JSONRPCResponse(**response.json())
 
     return _jrpc_request
