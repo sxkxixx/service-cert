@@ -15,11 +15,11 @@ from infrastructure.config import app_config
 config = context.config
 section = config.config_ini_section
 
-config.set_section_option(section, 'POSTGRES_DB', app_config.db.POSTGRES_DB)
-config.set_section_option(section, 'POSTGRES_HOST', app_config.db.POSTGRES_HOST)
-config.set_section_option(section, 'POSTGRES_PORT', str(app_config.db.POSTGRES_PORT))
-config.set_section_option(section, 'POSTGRES_USER', app_config.db.POSTGRES_USER)
-config.set_section_option(section, 'POSTGRES_PASSWORD', app_config.db.POSTGRES_PASSWORD)
+config.set_section_option(section, 'POSTGRES_DB', app_config.POSTGRES_DB)
+config.set_section_option(section, 'POSTGRES_HOST', app_config.POSTGRES_HOST)
+config.set_section_option(section, 'POSTGRES_PORT', str(app_config.POSTGRES_PORT))
+config.set_section_option(section, 'POSTGRES_USER', app_config.POSTGRES_USER)
+config.set_section_option(section, 'POSTGRES_PASSWORD', app_config.POSTGRES_PASSWORD)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

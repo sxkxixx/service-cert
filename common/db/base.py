@@ -35,8 +35,8 @@ class BaseModel(DeclarativeBase, TimestampMixin):
 
 
 async_engine = asyncio.create_async_engine(
-    url=app_config.db.dsn,
-    echo=app_config.db.echo,
+    url=app_config.dsn,
+    echo=app_config.echo,
     future=True,
 )
 

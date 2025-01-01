@@ -4,5 +4,6 @@ pytest_plugins = [
     'tests.fixtures.client',
     'tests.fixtures.templates',
     'tests.fixtures.services',
-    'tests.fixtures.releases'
+    'tests.fixtures.releases',
+    'tests.fixtures.user',
 ]

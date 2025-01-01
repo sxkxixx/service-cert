@@ -1,3 +1,3 @@
-import openrpc
+import fastapi_jsonrpc as jsonrpc
 
-rpc_server = openrpc.RPCServer(title='service-cert')
+entrypoint = jsonrpc.Entrypoint(path='/api/v1')

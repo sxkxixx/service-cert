@@ -19,13 +19,15 @@ async def test_search_release_with_nullable_name(
         params=params,
     )
     assert response.success
-    assert response.result == [{
-        'id': str(release.id),
-        'service_id': str(release.service_id),
-        'template_id': str(release.template_id),
-        'name': str(release.name),
-        'semantic_version': release.semantic_version,
-    }]
+    assert response.result == [
+        {
+            'id': str(release.id),
+            'service_id': str(release.service_id),
+            'template_id': str(release.template_id),
+            'name': str(release.name),
+            'semantic_version': release.semantic_version,
+        }
+    ]
 
 
 async def test_no_releases_by_name(
