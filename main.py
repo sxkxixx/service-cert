@@ -15,7 +15,8 @@ def build_application() -> jsonrpc.API:
     return application
 
 
+app = build_application()
+
 if __name__ == '__main__':
     uvloop.install()
-    app = build_application()
     uvicorn.run(app)

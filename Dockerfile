@@ -16,4 +16,4 @@ RUN curl -sSL https://install.python-poetry.org | python3 - && \
 
 COPY ./ /app
 
-CMD ["python3", "main.py"]
+CMD ["uvicorn", "main:app", "--port", "8000"]
