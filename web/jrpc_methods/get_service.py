@@ -7,7 +7,11 @@ from web import exceptions as web_exc
 from ._rpc_server import entrypoint
 
 
-@entrypoint.method()
+@entrypoint.method(
+    tags=['SERVICE'],
+    description='Get service by id',
+    errors=[web_exc.ObjectDoesNotExistsError],
+)
 async def get_service(service_id: uuid.UUID) -> ServiceResponse:
     service = await service_selectors.get_service(service_id=service_id)
     if service is None:

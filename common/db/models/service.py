@@ -7,6 +7,7 @@ from common.db import base
 
 if typing.TYPE_CHECKING:
     from common.db.models.release import Release
+    from common.db.models.requirements import ServiceRequirement
 
 
 class Service(base.BaseModel):
@@ -20,3 +21,7 @@ class Service(base.BaseModel):
     )
 
     releases: Mapped[list['Release']] = relationship('Release', back_populates='service')
+    service_requirements: Mapped[list['ServiceRequirement']] = relationship(
+        'ServiceRequirement',
+        back_populates='service',
+    )

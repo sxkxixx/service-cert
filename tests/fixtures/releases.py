@@ -16,7 +16,5 @@ class ReleaseFactory(CustomSQLAlchemyFactory[db.Release]):
 
 
 @pytest.fixture
-async def release(service: db.Service, template: db.Template) -> db.Release:
-    return await ReleaseFactory.create_async(
-        service=service, template=template, semantic_version=None
-    )
+async def release(service: db.Service) -> db.Release:
+    return await ReleaseFactory.create_async(service=service, semantic_version=None)

@@ -11,11 +11,11 @@ logger = logging.getLogger(__name__)
 async def select_templates(
     limit: int,
     offset: int,
-) -> list[db.Template]:
+) -> list['db.Template']:
     async with db.AsyncSession() as session:
         query = (
-            sqlalchemy.select(db.Template)
-            .options(selectinload(db.Template.requirements))
+            sqlalchemy.select('db.Template')
+            .options(selectinload('db.Template.requirements'))
             .offset(offset=offset)
             .limit(limit=limit)
         )

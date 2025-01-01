@@ -19,7 +19,11 @@ async def get_services(offset: int, limit: int) -> list[db.Service]:
 
 
 async def get_service(service_id: uuid.UUID) -> db.Service | None:
-    query = sqlalchemy.select(db.Service).filter(db.Service.id == service_id)
+    query = (
+        sqlalchemy.select(db.Service)
+        .filter(db.Service.id == service_id)
+        .options(selectinload(db.Service.service_requirements))
+    )
 
     async with db.AsyncSession() as session:
         service = await session.scalar(statement=query)

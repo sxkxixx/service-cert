@@ -21,4 +21,5 @@ async def test_get_service(service: db.Service, jrpc_client) -> None:
         'description': service.description,
         'id': str(service.id),
         'confluence_page_link': None,
+        'requirements': [],
     }

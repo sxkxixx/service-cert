@@ -1,14 +1,11 @@
 from .release import Release
+from .requirements import ServiceRequirement
 from .service import Service
-from .template import Requirement, Template, TemplateRequirementAssociation
-from .user import RefreshSession, User
+from .user import User
 
 __all__ = [
     'Service',
     'Release',
-    'Template',
-    'TemplateRequirementAssociation',
-    'Requirement',
+    'ServiceRequirement',
     'User',
-    'RefreshSession',
 ]

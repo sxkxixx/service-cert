@@ -10,12 +10,16 @@ async def create_user(
     email: str,
     password: str,
 ) -> db.User:
-    statement = sqlalchemy.insert(db.User).values(
-        first_name=first_name,
-        last_name=last_name,
-        email=email,
-        password=hasher.get_password_hash(password=password),
-    ).returning(db.User)
+    statement = (
+        sqlalchemy.insert(db.User)
+        .values(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=hasher.get_password_hash(password=password),
+        )
+        .returning(db.User)
+    )
 
     async with db.AsyncSession() as session:
         user = await session.scalar(statement=statement)
