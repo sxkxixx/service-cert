@@ -20,4 +20,4 @@ class ServiceFactory(CustomSQLAlchemyFactory[db.Service]):
 
 @pytest.fixture()
 async def service() -> db.Service:
-    return await ServiceFactory.create_async()
+    return await ServiceFactory.create_async(confluence_page_link=None)
