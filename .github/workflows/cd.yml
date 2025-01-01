@@ -1,0 +1,40 @@
+name: Build docker image
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ${{ secrets.REGISTRY_IMAGE_NAME }}:latest
+
+  update_image:
+    needs: [build-docker-image]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update project on server
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_USER_PASSWORD }}
+          host: ${{ secrets.SSH_HOST }}
+          port: 22
+          script: |
+            cd /${{ secrets.SSH_USERNAME }}/${{ github.event.repository.name }}
+            docker stop ${{ github.event.repository.name }}
+            docker rm ${{ github.event.repository.name }}
+            docker rmi --force ${{ secrets.REGISTRY_IMAGE_NAME }}:latest
+            docker run -d -p 8000:8000 --env-file .env --name ${{ github.event.repository.name }} --restart unless-stopped ${{ secrets.REGISTRY_IMAGE_NAME }}:latest
