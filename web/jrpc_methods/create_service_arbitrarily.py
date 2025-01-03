@@ -4,7 +4,7 @@ from services.service import interactor as service_interactor
 from ._rpc_server import entrypoint
 
 
-@entrypoint.method()
+@entrypoint.method(tags=['SERVICE'])
 async def create_service_arbitrarily(service: ArbitrarilyCreateServiceRequest) -> ServiceResponse:
     created_service = await service_interactor.create_service(
         name=service.name, description=service.description, requirements=service.requirements

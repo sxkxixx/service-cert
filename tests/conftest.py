@@ -6,4 +6,5 @@ pytest_plugins = [
     'tests.fixtures.releases',
     'tests.fixtures.user',
     'tests.fixtures.service_requirements',
+    'tests.fixtures.release_requirement',
 ]
