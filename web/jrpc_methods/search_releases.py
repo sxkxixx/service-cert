@@ -5,7 +5,9 @@ from services.releases import selectors as releases_selectors
 from ._rpc_server import entrypoint
 
 
-@entrypoint.method()
+@entrypoint.method(
+    tags=['RELEASE'],
+)
 async def search_releases(batch: BatchQuery, name: str | None = None) -> ReleasesResponse:
     releases = await releases_selectors.select_releases(
         name=name,

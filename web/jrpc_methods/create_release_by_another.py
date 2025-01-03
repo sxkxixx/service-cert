@@ -8,6 +8,7 @@ from ._rpc_server import entrypoint
 
 @entrypoint.method(
     tags=['RELEASE'],
+    errors=[web_exc.ObjectDoesNotExistsError],
 )
 async def create_release_by_another(release: CreateReleaseFromAnother) -> ReleaseResponse:
     try:

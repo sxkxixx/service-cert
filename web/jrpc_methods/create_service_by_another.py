@@ -9,6 +9,7 @@ from ._rpc_server import entrypoint
 @entrypoint.method(
     tags=['SERVICE'],
     description='Creating a new service, using requirements from another',
+    errors=[web_exc.ObjectDoesNotExistsError],
 )
 async def create_service_by_another(service: CreateServiceFromAnother) -> ServiceResponse:
     try:

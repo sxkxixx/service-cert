@@ -12,6 +12,7 @@ from ._rpc_server import entrypoint
 @entrypoint.method(
     tags=['RELEASE'],
     description='',
+    errors=[web_exc.ObjectDoesNotExistsError],
 )
 async def create_release_arbitrarily(
     service_id: uuid.UUID,

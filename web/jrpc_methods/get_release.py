@@ -7,7 +7,10 @@ from web import exceptions as web_exc
 from ._rpc_server import entrypoint
 
 
-@entrypoint.method(tags=['RELEASE'])
+@entrypoint.method(
+    tags=['RELEASE'],
+    errors=[web_exc.ObjectDoesNotExistsError],
+)
 async def get_release(release_id: uuid.UUID) -> ReleaseResponse:
     release = await release_selectors.get_release_by_id(release_id=release_id)
     if release is None:

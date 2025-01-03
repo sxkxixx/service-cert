@@ -7,7 +7,10 @@ from web import exceptions as web_exc
 from ._rpc_server import entrypoint
 
 
-@entrypoint.method()
+@entrypoint.method(
+    tags=['AUTH'],
+    errors=[web_exc.AuthenticationError],
+)
 async def login(login_data: schemas.user.UserLoginRequest, response: fastapi.Response) -> bool:
     user = await user_service.selectors.get_user_by_email(email=login_data.email)
     if user is None:

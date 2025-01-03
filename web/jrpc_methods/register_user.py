@@ -7,7 +7,11 @@ from web import exceptions as web_exc
 from ._rpc_server import entrypoint
 
 
-@entrypoint.method(description='Метод для регистрации пользователя в сервисе')
+@entrypoint.method(
+    tags=['AUTH'],
+    description='Метод для регистрации пользователя в сервисе',
+    errors=[web_exc.AlreadyExistsError],
+)
 async def register_user(data: RegisterUser) -> UserResponse:
     try:
         user = await user_service.interactor.create_user(
