@@ -18,7 +18,7 @@ async def get_services(offset: int, limit: int) -> list[db.Service]:
     return result.scalars().all()
 
 
-async def get_service(service_id: uuid.UUID) -> db.Service | None:
+async def get_service_with_requirements(service_id: uuid.UUID) -> db.Service | None:
     query = (
         sqlalchemy.select(db.Service)
         .filter(db.Service.id == service_id)
@@ -28,3 +28,10 @@ async def get_service(service_id: uuid.UUID) -> db.Service | None:
     async with db.AsyncSession() as session:
         service = await session.scalar(statement=query)
     return service
+
+
+def get_service_stmt(service_id: uuid.UUID, lock: bool = False) -> sqlalchemy.Select:
+    query = sqlalchemy.select(db.Service).where(db.Service.id == service_id)
+    if lock:
+        return query.with_for_update()
+    return query

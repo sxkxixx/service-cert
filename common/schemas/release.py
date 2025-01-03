@@ -22,3 +22,10 @@ class ReleaseListResponse(pydantic.BaseModel):
 
 class ReleasesResponse(pydantic.RootModel):
     root: list[ReleaseListResponse]
+
+
+class CreateReleaseFromAnother(pydantic.BaseModel):
+    name: str
+    service_id: uuid.UUID
+    semantic_version: str | None
+    source_release_id: uuid.UUID

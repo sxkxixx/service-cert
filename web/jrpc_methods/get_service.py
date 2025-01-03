@@ -13,7 +13,7 @@ from ._rpc_server import entrypoint
     errors=[web_exc.ObjectDoesNotExistsError],
 )
 async def get_service(service_id: uuid.UUID) -> ServiceResponse:
-    service = await service_selectors.get_service(service_id=service_id)
+    service = await service_selectors.get_service_with_requirements(service_id=service_id)
     if service is None:
         raise web_exc.ObjectDoesNotExistsError()
     return ServiceResponse.model_validate(service, from_attributes=True)

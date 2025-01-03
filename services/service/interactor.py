@@ -38,13 +38,6 @@ async def create_service(
         )
 
 
-def service_statement(service_id: uuid.UUID, lock: bool = False) -> sqlalchemy.Select:
-    query = sqlalchemy.select(db.Service).filter(db.Service.id == service_id)
-    if lock:
-        return query.with_for_update()
-    return query
-
-
 def _service_with_requirements_query(
     service_id: uuid.UUID, lock: bool = False
 ) -> sqlalchemy.Select:

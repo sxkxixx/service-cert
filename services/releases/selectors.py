@@ -29,3 +29,16 @@ async def get_release_by_id(release_id: uuid.UUID) -> db.Release | None:
             .options(selectinload(db.Release.release_requirements))
         )
         return await session.scalar(statement=statement)
+
+
+def get_release_with_requirements(
+    release_id: uuid.UUID, lock: bool = False
+) -> sqlalchemy.Select[db.Release]:
+    query = (
+        sqlalchemy.select(db.Release)
+        .where(db.Release.id == release_id)
+        .options(selectinload(db.Release.release_requirements))
+    )
+    if lock:
+        return query.with_for_update()
+    return query
