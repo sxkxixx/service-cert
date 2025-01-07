@@ -1,9 +1,10 @@
+import json
+
 import fastapi
 
 from common.jwt import AccessToken
 from common.utils import request_id
 from infrastructure import context
-from services.user.selectors import assert_user_exists
 
 
 async def process_context(request: fastapi.Request, call_next):
@@ -19,7 +20,10 @@ async def _set_x_request_id(request: fastapi.Request) -> None:
 
 
 async def _set_context_method(request: fastapi.Request) -> None:
-    body = await request.json()
+    try:
+        body = await request.json()
+    except json.decoder.JSONDecodeError:
+        return
     context.x_request_id.set(body.get('method', None))
 
 
