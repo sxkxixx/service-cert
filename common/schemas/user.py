@@ -18,5 +18,5 @@ class UserResponse(pydantic.BaseModel):
 
 
 class UserLoginRequest(pydantic.BaseModel):
-    email: pydantic.EmailStr
+    first_factor: str
     password: str

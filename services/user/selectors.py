@@ -5,8 +5,10 @@ import sqlalchemy
 from common import db
 
 
-async def get_user_by_email(email: str) -> db.User | None:
-    statement = sqlalchemy.select(db.User).filter(db.User.email == email)
+async def get_user_by_email_or_nickname(factor: str) -> db.User | None:
+    statement = sqlalchemy.select(db.User).filter(
+        sqlalchemy.or_(db.User.email == factor, db.User.nickname == factor)
+    )
 
     async with db.AsyncSession() as session:
         user = await session.scalar(statement=statement)
