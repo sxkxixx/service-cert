@@ -1,4 +1,7 @@
+import uuid
+
 import sqlalchemy
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from common import db, hasher
 
@@ -34,3 +37,14 @@ def get_user_dict(user: db.User) -> dict:
         'nickname': user.nickname,
         'email': user.email,
     }
+
+
+async def delete_user(user_id: uuid.UUID) -> None:
+    async with db.transaction() as session:
+        session: AsyncSession
+        statement = sqlalchemy.select(db.User).where(db.User.id == user_id).with_for_update()
+        user = await session.scalar(statement=statement)
+        if user is None:
+            return
+        delete_statement = sqlalchemy.delete(db.User).where(db.User.id == user_id)
+        await session.execute(delete_statement)

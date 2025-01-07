@@ -3,7 +3,8 @@ import os
 import pytest
 from polyfactory import AsyncPersistenceProtocol
 
-from common import db, hasher
+from common import db, hasher, jwt
+from services.user.interactor import get_user_dict
 
 from .factory_mixin import AsyncPersistenceAlchemyMixin, CustomSQLAlchemyFactory
 
@@ -33,3 +34,8 @@ async def user() -> db.User:
 @pytest.fixture
 async def user_with_pwd() -> db.User:
     return await UserFactory.create_async(password=hasher.get_password_hash('mafia'))
+
+
+@pytest.fixture()
+async def access_token(user: db.User) -> str:
+    return jwt.AccessToken(payload=get_user_dict(user)).encode()

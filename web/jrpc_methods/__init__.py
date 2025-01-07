@@ -3,6 +3,7 @@ from .create_release_arbitrarily import create_release_arbitrarily
 from .create_release_by_another import create_release_by_another
 from .create_service_arbitrarily import create_service_arbitrarily
 from .create_service_by_another import create_service_by_another
+from .delete_user import delete_user
 from .get_release import get_release
 from .get_service import get_service
 from .get_services import get_services

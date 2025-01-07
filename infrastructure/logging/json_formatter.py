@@ -10,6 +10,7 @@ class JsonFormatter(Formatter):
         data = {
             '@message': record.getMessage(),
             '@x-request-id': context.x_request_id.get(None),
+            '@user-id': context.user_id.get(None),
         }
         message = {
             '@timestamp': datetime.datetime.now().isoformat(),

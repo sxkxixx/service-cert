@@ -1,8 +1,8 @@
 import typing
 import uuid
+from functools import partial
 
 import pytest
-from fastapi.testclient import TestClient
 from httpx import ASGITransport, AsyncClient
 
 from main import build_application
@@ -54,3 +54,8 @@ def jrpc_client(test_client: AsyncClient) -> typing.Callable:
         return JSONRPCResponse(**response.json())
 
     return _jrpc_request
+
+
+@pytest.fixture()
+def authorized_jrpc_client(jrpc_client, access_token: str) -> typing.Callable:
+    return partial(jrpc_client, headers={'Authorization': access_token})
