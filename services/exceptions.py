@@ -4,3 +4,7 @@ class ServiceNotFound(Exception):
 
 class ReleaseNotFound(Exception):
     """Release not found"""
+
+
+class RequirementNotFound(Exception):
+    """Requirement not found"""

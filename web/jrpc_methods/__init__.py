@@ -4,6 +4,8 @@ from .create_release_by_another import create_release_by_another
 from .create_service_arbitrarily import create_service_arbitrarily
 from .create_service_by_another import create_service_by_another
 from .delete_user import delete_user
+from .edit_release_requirement import edit_release_requirement
+from .edit_service_requirement import edit_service_requirement
 from .get_all_release_requirements import get_all_release_requirements
 from .get_all_service_requirements import get_all_service_requirements
 from .get_current_user import get_current_user
