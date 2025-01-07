@@ -1,4 +1,6 @@
 from ._rpc_server import entrypoint
+from .add_release_requirement import add_release_requirement
+from .add_service_requirement import add_service_requirement
 from .create_release_arbitrarily import create_release_arbitrarily
 from .create_release_by_another import create_release_by_another
 from .create_service_arbitrarily import create_service_arbitrarily

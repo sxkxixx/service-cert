@@ -20,4 +20,4 @@ class ReleaseRequirementFactory(CustomSQLAlchemyFactory[db.ReleaseRequirement]):
 
 @pytest.fixture()
 async def release_requirement(release: db.Release) -> db.ReleaseRequirement:
-    return await ReleaseRequirementFactory.create_async(release_id=release.id)
+    return await ReleaseRequirementFactory.create_async(release_id=release.id, responsible_id=None)

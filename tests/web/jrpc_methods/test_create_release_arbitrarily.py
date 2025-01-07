@@ -31,6 +31,7 @@ async def test_create_release_arbitrarily_ok(
                 'id': dirty_equals.IsUUID(version=4),
                 'name': 'smth',
                 'value': None,
+                'responsible_id': None,
             },
         ],
     }

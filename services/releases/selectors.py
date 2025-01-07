@@ -42,3 +42,10 @@ def get_release_with_requirements(
     if lock:
         return query.with_for_update()
     return query
+
+
+def get_release_stmt(release_id: uuid.UUID, lock: bool = False) -> sqlalchemy.Select[db.Release]:
+    query = sqlalchemy.select(db.Release).where(db.Release.id == release_id)
+    if lock:
+        return query.with_for_update()
+    return query

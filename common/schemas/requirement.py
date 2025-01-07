@@ -11,3 +11,4 @@ class RequirementCreate(pydantic.BaseModel):
 
 class Requirement(RequirementCreate):
     id: uuid.UUID
+    responsible_id: uuid.UUID | None

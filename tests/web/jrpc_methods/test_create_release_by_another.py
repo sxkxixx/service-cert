@@ -87,6 +87,7 @@ async def test_create_by_another_ok(
                 'id': dirty_equals.IsUUID(version=4),
                 'name': 'Требование релиза',
                 'value': None,
+                'responsible_id': None,
             }
         ],
     }

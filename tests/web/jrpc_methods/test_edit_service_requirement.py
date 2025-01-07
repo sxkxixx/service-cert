@@ -27,4 +27,5 @@ async def test_edit_ok(jrpc_client, service_requirement: db.ServiceRequirement) 
         'id': str(service_requirement.id),
         'name': 'Gitlab',
         'value': None,
+        'responsible_id': None,
     }

@@ -20,4 +20,4 @@ class ServiceRequirementFactory(CustomSQLAlchemyFactory[db.ServiceRequirement]):
 
 @pytest.fixture()
 async def service_requirement(service) -> db.ServiceRequirement:
-    return await ServiceRequirementFactory.create_async(service_id=service.id)
+    return await ServiceRequirementFactory.create_async(service_id=service.id, responsible_id=None)

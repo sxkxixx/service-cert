@@ -9,6 +9,7 @@ from common.db import base
 if typing.TYPE_CHECKING:
     from common.db.models.release import Release
     from common.db.models.service import Service
+    from common.db.models.user import User
 
 
 class _Requirement:
@@ -22,7 +23,14 @@ class ServiceRequirement(base.BaseModel, _Requirement):
     service_id: Mapped[uuid.UUID] = mapped_column(
         sqlalchemy.ForeignKey('service.id'), nullable=False
     )
+    responsible_id: Mapped[uuid.UUID | None] = mapped_column(
+        sqlalchemy.ForeignKey('user.id'),
+        nullable=True,
+        default=None,
+    )
     service: Mapped['Service'] = relationship('Service', back_populates='service_requirements')
+
+    responsible: Mapped['User'] = relationship('User')
 
 
 class ReleaseRequirement(base.BaseModel, _Requirement):
@@ -31,4 +39,11 @@ class ReleaseRequirement(base.BaseModel, _Requirement):
     release_id: Mapped[uuid.UUID] = mapped_column(
         sqlalchemy.ForeignKey('release.id'), nullable=False
     )
+    responsible_id: Mapped[uuid.UUID | None] = mapped_column(
+        sqlalchemy.ForeignKey('user.id'),
+        nullable=True,
+        default=None,
+    )
+
     release: Mapped['Release'] = relationship('Release', back_populates='release_requirements')
+    responsible: Mapped['User'] = relationship('User')

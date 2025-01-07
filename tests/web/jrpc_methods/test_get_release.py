@@ -46,6 +46,7 @@ async def test_get_release_with_requirements(
                 'id': dirty_equals.IsUUID(version=4),
                 'name': 'Требование релиза',
                 'value': 'Значение требования релиза',
+                'responsible_id': None,
             }
         ],
     }

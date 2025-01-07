@@ -6,6 +6,7 @@ from sqlalchemy.orm import selectinload
 
 from common import db
 from services import exceptions
+from services.service import selectors as service_selectors
 
 
 async def create_service(
@@ -80,3 +81,30 @@ async def create_service_from_another(
         return await session.scalar(
             statement=_service_with_requirements_query(service_id=new_service.id)
         )
+
+
+async def create_release_requirement(
+    service_id: uuid.UUID,
+    responsible_id: uuid.UUID,
+    requirement,
+) -> db.ServiceRequirement:
+    async with db.transaction() as session:
+        service = await session.scalar(
+            statement=service_selectors.get_service_stmt(
+                service_id=service_id,
+                lock=True,
+            ),
+        )
+        if service is None:
+            raise exceptions.ServiceNotFound()
+        insert_stmt = (
+            sqlalchemy.insert(db.ServiceRequirement)
+            .values(
+                responsible_id=responsible_id,
+                service_id=service.id,
+                name=requirement.name,
+                value=requirement.value,
+            )
+            .returning(db.ServiceRequirement)
+        )
+        return await session.scalar(statement=insert_stmt)

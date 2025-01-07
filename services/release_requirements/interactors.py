@@ -1,9 +1,11 @@
 import uuid
 
 import sqlalchemy
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from common import db
-from services.exceptions import RequirementNotFound
+from services.exceptions import ReleaseNotFound, RequirementNotFound
+from services.releases import selectors as release_selectors
 
 from . import selectors
 
@@ -41,3 +43,30 @@ async def delete_release_requirement(requirement_id: uuid.UUID) -> None:
             .returning(db.ReleaseRequirement.id)
         )
         await session.scalar(statement=delete_stmt)
+
+
+async def create_release_requirement(
+    release_id: uuid.UUID,
+    responsible_id: uuid.UUID,
+    requirement,
+) -> db.ReleaseRequirement:
+    async with db.transaction() as session:
+        release = await session.scalar(
+            statement=release_selectors.get_release_stmt(
+                release_id=release_id,
+                lock=True,
+            ),
+        )
+        if release is None:
+            raise ReleaseNotFound()
+        insert_stmt = (
+            sqlalchemy.insert(db.ReleaseRequirement)
+            .values(
+                responsible_id=responsible_id,
+                release_id=release.id,
+                name=requirement.name,
+                value=requirement.value,
+            )
+            .returning(db.ReleaseRequirement)
+        )
+        return await session.scalar(statement=insert_stmt)
