@@ -9,3 +9,6 @@ lint:
 
 format:
 	ruff format
+
+fix:
+	ruff check --select I --fix

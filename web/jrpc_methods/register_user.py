@@ -8,7 +8,7 @@ from ._rpc_server import entrypoint
 
 
 @entrypoint.method(
-    tags=['AUTH'],
+    tags=['USER'],
     description='Метод для регистрации пользователя в сервисе',
     errors=[web_exc.AlreadyExistsError],
 )
