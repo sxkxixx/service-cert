@@ -12,7 +12,9 @@ from ._rpc_server import entrypoint
     errors=[web_exc.AuthenticationError],
 )
 async def login(login_data: schemas.user.UserLoginRequest, response: fastapi.Response) -> bool:
-    user = await user_service.selectors.get_user_by_email_or_nickname(factor=login_data.first_factor)
+    user = await user_service.selectors.get_user_by_email_or_nickname(
+        factor=login_data.first_factor
+    )
     if user is None:
         raise web_exc.AuthenticationError()
     if not hasher.verify_password(plain_password=login_data.password, hash_password=user.password):

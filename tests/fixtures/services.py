@@ -26,5 +26,7 @@ async def service() -> db.Service:
 
 @pytest.fixture()
 async def service_with_requirement(service: db.Service) -> db.Service:
-    await ServiceRequirementFactory.create_async(service_id=service.id, name='Требование сервиса', responsible_id=None)
+    await ServiceRequirementFactory.create_async(
+        service_id=service.id, name='Требование сервиса', responsible_id=None
+    )
     return service
