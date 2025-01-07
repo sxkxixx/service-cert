@@ -12,7 +12,9 @@ from ._rpc_server import entrypoint
     tags=['SERVICE'],
     errors=[web_exc.ObjectDoesNotExistsError],
 )
-async def edit_service_requirement(requirement_id: uuid.UUID, name: str, value: str | None = None) -> Requirement:
+async def edit_service_requirement(
+    requirement_id: uuid.UUID, name: str, value: str | None = None
+) -> Requirement:
     try:
         requirement = await sr_interactor.edit_service_requirement(
             requirement_id=requirement_id,

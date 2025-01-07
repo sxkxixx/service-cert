@@ -10,7 +10,9 @@ async def test_get_all_release_requirements_empty(jrpc_client) -> None:
     assert response.result == []
 
 
-async def test_get_all_rr_not_empty(jrpc_client, release_requirement: db.ReleaseRequirement) -> None:
+async def test_get_all_rr_not_empty(
+    jrpc_client, release_requirement: db.ReleaseRequirement
+) -> None:
     response = await jrpc_client(method=method, params=params)
     assert response.success
     assert response.result == [release_requirement.name]

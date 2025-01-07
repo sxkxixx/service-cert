@@ -3,8 +3,8 @@ import uuid
 import sqlalchemy
 
 from common import db
+from services.exceptions import RequirementNotFound
 
-from ..exceptions import RequirementNotFound
 from . import selectors
 
 
@@ -14,7 +14,9 @@ async def edit_release_requirement(
     value: str | None,
 ) -> db.ReleaseRequirement:
     async with db.transaction() as session:
-        requirement = await session.scalar(selectors.get_by_id_stmt(requirement_id=requirement_id, lock=True))
+        requirement = await session.scalar(
+            selectors.get_by_id_stmt(requirement_id=requirement_id, lock=True)
+        )
         if requirement is None:
             raise RequirementNotFound()
         update_stmt = (
@@ -24,3 +26,18 @@ async def edit_release_requirement(
             .returning(db.ReleaseRequirement)
         )
         return await session.scalar(statement=update_stmt)
+
+
+async def delete_release_requirement(requirement_id: uuid.UUID) -> None:
+    async with db.transaction() as session:
+        requirement = await session.scalar(
+            selectors.get_by_id_stmt(requirement_id=requirement_id, lock=True)
+        )
+        if requirement is None:
+            raise RequirementNotFound()
+        delete_stmt = (
+            sqlalchemy.delete(db.ReleaseRequirement)
+            .where(db.ReleaseRequirement.id == requirement_id)
+            .returning(db.ReleaseRequirement.id)
+        )
+        await session.scalar(statement=delete_stmt)

@@ -19,7 +19,9 @@ async def select_all(limit: int, offset: int) -> list[str]:
 
 
 def get_by_id_stmt(requirement_id: uuid.UUID, lock: bool = False) -> sqlalchemy.Select:
-    query = sqlalchemy.select(db.ReleaseRequirement).where(db.ReleaseRequirement.id == requirement_id)
+    query = sqlalchemy.select(db.ReleaseRequirement).where(
+        db.ReleaseRequirement.id == requirement_id
+    )
     if lock:
         return query.with_for_update()
     return query
