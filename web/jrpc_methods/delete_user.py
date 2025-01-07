@@ -6,7 +6,9 @@ from web.dependencies.user import get_current_user
 from ._rpc_server import entrypoint
 
 
-@entrypoint.method()
+@entrypoint.method(
+    tags=['USER'],
+)
 async def delete_user(
     response: fastapi.Response,
     user=fastapi.Depends(get_current_user),
