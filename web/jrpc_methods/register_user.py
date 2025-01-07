@@ -15,8 +15,8 @@ from ._rpc_server import entrypoint
 async def register_user(data: RegisterUser) -> UserResponse:
     try:
         user = await user_service.interactor.create_user(
-            first_name=data.first_name,
-            last_name=data.last_name,
+            name=data.name,
+            nickname=data.nickname,
             email=data.email,
             password=data.password,
         )

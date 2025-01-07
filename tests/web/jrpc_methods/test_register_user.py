@@ -7,8 +7,8 @@ async def test_register_user(jrpc_client):
     method = 'register_user'
     params = {
         'data': {
-            'first_name': 'Михаил',
-            'last_name': 'Зюбенко',
+            'name': 'Михаил Зюбенко',
+            'nickname': 'zubenko.mafia',
             'email': 'zubenko.mikhail@gmail.com',
             'password': 'mafia',
         }
@@ -18,8 +18,8 @@ async def test_register_user(jrpc_client):
     assert response.success
     assert response.result == {
         'id': dirty_equals.IsUUID(version=4),
-        'first_name': 'Михаил',
-        'last_name': 'Зюбенко',
+        'name': 'Михаил Зюбенко',
+        'nickname': 'zubenko.mafia',
         'email': 'zubenko.mikhail@gmail.com',
     }
 
@@ -28,8 +28,8 @@ async def test_register_user_email_duplicate(jrpc_client, user: db.User):
     method = 'register_user'
     params = {
         'data': {
-            'first_name': 'Михаил',
-            'last_name': 'Зюбенко',
+            'name': 'Михаил Зюбенко',
+            'nickname': 'zubenko.mafia',
             'email': user.email,
             'password': 'mafia2',
         }

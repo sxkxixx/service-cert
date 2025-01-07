@@ -4,16 +4,16 @@ import pydantic
 
 
 class RegisterUser(pydantic.BaseModel):
-    first_name: str
-    last_name: str
+    name: str
+    nickname: str
     email: pydantic.EmailStr
     password: str
 
 
 class UserResponse(pydantic.BaseModel):
     id: uuid.UUID
-    first_name: str
-    last_name: str
+    name: str
+    nickname: str
     email: pydantic.EmailStr
 
 

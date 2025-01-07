@@ -5,16 +5,16 @@ from common import db, hasher
 
 async def create_user(
     *,
-    first_name: str,
-    last_name: str,
+    name: str,
+    nickname: str,
     email: str,
     password: str,
 ) -> db.User:
     statement = (
         sqlalchemy.insert(db.User)
         .values(
-            first_name=first_name,
-            last_name=last_name,
+            name=name,
+            nickname=nickname,
             email=email,
             password=hasher.get_password_hash(password=password),
         )
@@ -30,7 +30,7 @@ async def create_user(
 def get_user_dict(user: db.User) -> dict:
     return {
         'id': str(user.id),
-        'first_name': user.first_name,
-        'last_name': user.last_name,
+        'name': user.name,
+        'nickname': user.nickname,
         'email': user.email,
     }
