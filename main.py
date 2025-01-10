@@ -1,6 +1,7 @@
 import fastapi_jsonrpc as jsonrpc
 import uvicorn
 import uvloop
+from fastapi.middleware.cors import CORSMiddleware
 
 from infrastructure.logging import setup_logging
 from web import middleware
@@ -13,6 +14,14 @@ def build_application() -> jsonrpc.API:
     application = jsonrpc.API()
     application.bind_entrypoint(ep=entrypoint)
     application.middleware('http')(middleware.process_context)
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=['*'],
+        allow_credentials=True,
+        allow_methods=['*'],
+        allow_headers=['*'],
+    )
     return application
 
 
