@@ -21,4 +21,5 @@ async def login(login_data: schemas.user.UserLoginRequest, response: fastapi.Res
         raise web_exc.AuthenticationError()
     payload = user_service.interactor.get_user_dict(user=user)
     access_token = jwt.AccessToken(payload=payload.copy()).encode()
+    response.headers['Authorization'] = access_token
     return {'access_token': access_token}
