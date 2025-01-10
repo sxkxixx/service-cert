@@ -28,7 +28,7 @@ async def _set_context_method(request: fastapi.Request) -> None:
 
 
 async def _set_context_user_id(request: fastapi.Request) -> None:
-    authorization_header = 'Authorization'
+    authorization_header = 'X-Service-Cert-Id'
     access_token_value = request.headers.get(authorization_header, None)
     if access_token_value is None:
         context.user_id.set(None)

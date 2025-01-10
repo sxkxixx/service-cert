@@ -58,4 +58,4 @@ def jrpc_client(test_client: AsyncClient) -> typing.Callable:
 
 @pytest.fixture()
 def authorized_jrpc_client(jrpc_client, access_token: str) -> typing.Callable:
-    return partial(jrpc_client, headers={'Authorization': access_token})
+    return partial(jrpc_client, headers={'X-Service-Cert-Id': access_token})

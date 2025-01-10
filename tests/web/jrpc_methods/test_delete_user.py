@@ -20,7 +20,7 @@ async def test_delete_not_exists_user(jrpc_client) -> None:
     payload = {'id': str(uuid.uuid4())}
     access_token = AccessToken(payload=payload)
     response = await jrpc_client(
-        method=method, params={}, headers={'Authorization': access_token.encode()}
+        method=method, params={}, headers={'X-Service-Cert-Id': access_token.encode()}
     )
     assert response.failed
     assert response.error['code'] == -32003
