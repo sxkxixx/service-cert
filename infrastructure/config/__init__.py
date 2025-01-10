@@ -22,6 +22,14 @@ class _ApplicationConfig(pydantic_settings.BaseSettings):
     ACCESS_TOKEN_MINUTES_TTL: int = 5
     REFRESH_TOKEN_DAYS_TTL: int = 5
 
+    # CONFLUENCE
+    CONFLUENCE_URL: str = ''
+    CONFLUENCE_USER_EMAIL: str = ''
+    CONFLUENCE_API_TOKEN: str = ''
+
+    # Background Tasks Period
+    BACKGROUND_TASK_PERIOD: int | None = pydantic.Field(default=None)
+
     @pydantic.computed_field()
     @property
     def dsn(self) -> str:
