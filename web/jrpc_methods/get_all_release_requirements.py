@@ -7,6 +7,6 @@ from ._rpc_server import entrypoint
 @entrypoint.method(
     tags=['RELEASE'],
 )
-async def get_all_release_requirements(batch: BatchQuery) -> list[str]:
+async def get_all_release_requirements(batch: BatchQuery) -> list[dict]:
     requirements = await rr_selectors.select_all(limit=batch.limit, offset=batch.offset)
-    return requirements
+    return [{'id': requirement.id, 'name': requirement.name} for requirement in requirements]

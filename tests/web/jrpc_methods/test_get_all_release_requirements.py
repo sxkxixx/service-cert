@@ -1,3 +1,5 @@
+import dirty_equals
+
 from common import db
 
 method = 'get_all_release_requirements'
@@ -15,4 +17,6 @@ async def test_get_all_rr_not_empty(
 ) -> None:
     response = await jrpc_client(method=method, params=params)
     assert response.success
-    assert response.result == [release_requirement.name]
+    assert response.result == [
+        {'id': dirty_equals.IsUUID(version=4), 'name': release_requirement.name},
+    ]

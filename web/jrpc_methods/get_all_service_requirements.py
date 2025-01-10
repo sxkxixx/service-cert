@@ -7,5 +7,11 @@ from ._rpc_server import entrypoint
 @entrypoint.method(
     tags=['SERVICE'],
 )
-async def get_all_service_requirements(batch: BatchQuery) -> list[str]:
-    return await sr_selectors.select_all(limit=batch.limit, offset=batch.offset)
+async def get_all_service_requirements(batch: BatchQuery) -> list[dict]:
+    return [
+        {
+            'id': requirement.id,
+            'name': requirement.name,
+        }
+        for requirement in await sr_selectors.select_all(limit=batch.limit, offset=batch.offset)
+    ]

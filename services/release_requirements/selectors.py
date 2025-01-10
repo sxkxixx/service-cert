@@ -5,12 +5,9 @@ import sqlalchemy
 from common import db
 
 
-async def select_all(limit: int, offset: int) -> list[str]:
+async def select_all(limit: int, offset: int) -> list[db.ReleaseRequirement]:
     statement = (
-        sqlalchemy.select(db.ReleaseRequirement.name)
-        .distinct()
-        .offset(offset=offset)
-        .limit(limit=limit)
+        sqlalchemy.select(db.ReleaseRequirement).distinct().offset(offset=offset).limit(limit=limit)
     )
 
     async with db.AsyncSession() as session:
