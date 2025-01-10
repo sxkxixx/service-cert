@@ -1,3 +1,4 @@
+from .confluence import ReleasePage, ServiceSpace
 from .release import Release
 from .requirements import ReleaseRequirement, ServiceRequirement
 from .service import Service
@@ -9,4 +10,6 @@ __all__ = [
     'ServiceRequirement',
     'ReleaseRequirement',
     'User',
+    'ServiceSpace',
+    'ReleasePage',
 ]

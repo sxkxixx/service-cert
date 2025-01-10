@@ -1,0 +1,1 @@
+DEFAULT_RELEASE_FOLDER_NAME = 'Релизы'
