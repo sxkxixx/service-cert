@@ -37,7 +37,7 @@ async def test_correct_password_and_email(jrpc_client, user_with_pwd) -> None:
         params={'login_data': {'first_factor': user_with_pwd.email, 'password': 'mafia'}},
     )
     assert response.success
-    assert response.result is True
+    assert response.result['access_token']
 
 
 async def test_login_by_nickname(jrpc_client, user_with_pwd) -> None:
@@ -46,4 +46,4 @@ async def test_login_by_nickname(jrpc_client, user_with_pwd) -> None:
         params={'login_data': {'first_factor': user_with_pwd.nickname, 'password': 'mafia'}},
     )
     assert response.success
-    assert response.result is True
+    assert response.result['access_token']

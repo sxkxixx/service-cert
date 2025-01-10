@@ -11,7 +11,7 @@ from ._rpc_server import entrypoint
     tags=['AUTH'],
     errors=[web_exc.AuthenticationError],
 )
-async def login(login_data: schemas.user.UserLoginRequest, response: fastapi.Response) -> bool:
+async def login(login_data: schemas.user.UserLoginRequest, response: fastapi.Response) -> dict:
     user = await user_service.selectors.get_user_by_email_or_nickname(
         factor=login_data.first_factor
     )
@@ -21,13 +21,4 @@ async def login(login_data: schemas.user.UserLoginRequest, response: fastapi.Res
         raise web_exc.AuthenticationError()
     payload = user_service.interactor.get_user_dict(user=user)
     access_token = jwt.AccessToken(payload=payload.copy()).encode()
-    refresh_token = jwt.RefreshToken(payload=payload.copy())
-    response.headers['Authorization'] = access_token
-    response.set_cookie(
-        key='refresh_token',
-        value=str(refresh_token),
-        expires=refresh_token.expires_in.isoformat(),
-        path='/api/v1',
-        httponly=True,
-    )
-    return True
+    return {'access_token': access_token}
