@@ -24,7 +24,7 @@ async def create_user(
         .returning(db.User)
     )
 
-    async with db.AsyncSession() as session:
+    async with db.transaction() as session:
         user = await session.scalar(statement=statement)
 
     return user
