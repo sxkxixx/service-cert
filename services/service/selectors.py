@@ -63,7 +63,7 @@ async def get_service_ready_to_generate_space(session: AsyncSession) -> db.Servi
     return await session.scalar(statement=statement)
 
 
-async def service_for_create_folder(session: AsyncSession) -> db.Service:
+async def service_for_create_folder(session: AsyncSession) -> db.Service | None:
     statement = (
         sqlalchemy.select(db.Service)
         .options(selectinload(db.Service.service_space))

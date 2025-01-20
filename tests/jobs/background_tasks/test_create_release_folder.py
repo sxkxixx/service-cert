@@ -5,20 +5,27 @@ import pytest
 import sqlalchemy
 
 from common import db, enums
+from common.schemas.folder import Folder
 from jobs import background_tasks
 
 
 @pytest.fixture
 def mock_create_folder() -> mock.Mock:
-    with mock.patch('common.confluence.folder.create_folder') as mock_:
+    with mock.patch(
+        'common.confluence.folder.create_folder',
+        return_value=Folder(
+            id='26443777',
+            type='folder',
+            parentId='22872325',
+        ),
+    ) as mock_:
         yield mock_
 
 
 async def _get_service(service_id: uuid.UUID) -> db.Service | None:
     async with db.AsyncSession() as session:
         return await session.scalar(
-            sqlalchemy.select(db.Service)
-            .where(db.Service.id == service_id)
+            sqlalchemy.select(db.Service).where(db.Service.id == service_id)
         )
 
 
@@ -32,6 +39,7 @@ async def get_service_space(service_id: uuid.UUID) -> db.ServiceSpace | None:
 async def test_create_release_folder_ok(
     service_need_create_release_folder: db.Service,
     service_space: db.ServiceSpace,
+    mock_create_folder,
 ) -> None:
     await background_tasks.generate_release_folder.create_release_folder()
 
@@ -39,4 +47,4 @@ async def test_create_release_folder_ok(
     assert service.status == enums.ServiceStatus.NEED_UPDATE_HOMEPAGE
 
     service_page = await get_service_space(service_id=service.id)
-    assert service_page.release_folder_id == ''
+    assert service_page.release_folder_id == '26443777'

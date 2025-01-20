@@ -11,9 +11,9 @@ logger = logging.getLogger(__name__)
 
 
 @periodic_task_run(sleep=app_config.BACKGROUND_TASK_PERIOD)
-async def create_release_folder() -> None:
+async def create_release_folder(*_args, **_kwargs) -> None:
     async with db.transaction() as session:
-        service: db.Service = await service_selectors.service_for_create_folder(session=session)
+        service = await service_selectors.service_for_create_folder(session=session)
         if service is None:
             logger.info('Not found services to create release folder')
             return
