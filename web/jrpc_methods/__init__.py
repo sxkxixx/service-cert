@@ -22,3 +22,4 @@ from .get_user_by_id import get_user_by_id
 from .login import login
 from .register_user import register_user
 from .search_releases import search_releases
+from .search_service_by_name import search_service_by_name
