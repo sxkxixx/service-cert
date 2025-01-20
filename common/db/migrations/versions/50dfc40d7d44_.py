@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 9a6d316859aa
+Revision ID: 50dfc40d7d44
 Revises:
-Create Date: 2025-01-01 14:13:41.558806
+Create Date: 2025-01-20 18:57:58.238810
 
 """
 
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = '9a6d316859aa'
+revision: str = '50dfc40d7d44'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -31,8 +31,8 @@ def upgrade() -> None:
     )
     op.create_table(
         'user',
-        sa.Column('first_name', sa.String(length=32), nullable=False),
-        sa.Column('last_name', sa.String(length=64), nullable=False),
+        sa.Column('name', sa.String(length=128), nullable=False),
+        sa.Column('nickname', sa.String(length=64), nullable=False),
         sa.Column('email', sa.String(length=64), nullable=False),
         sa.Column('password', sa.String(length=512), nullable=False),
         sa.Column('id', sa.Uuid(), nullable=False),
@@ -40,20 +40,6 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint('id'),
     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
-    op.create_table(
-        'refresh_session',
-        sa.Column('user_id', sa.Uuid(), nullable=False),
-        sa.Column('expired_in', sa.DateTime(), nullable=False),
-        sa.Column('refresh_token', sa.String(length=512), nullable=False),
-        sa.Column('id', sa.Uuid(), nullable=False),
-        sa.Column('created_at', sa.TIMESTAMP(timezone=True), nullable=False),
-        sa.ForeignKeyConstraint(
-            ['user_id'],
-            ['user.id'],
-        ),
-        sa.PrimaryKeyConstraint('id'),
-        sa.UniqueConstraint('user_id'),
-    )
     op.create_table(
         'release',
         sa.Column('service_id', sa.Uuid(), nullable=False),
@@ -70,10 +56,15 @@ def upgrade() -> None:
     op.create_table(
         'service_requirement',
         sa.Column('service_id', sa.Uuid(), nullable=False),
+        sa.Column('responsible_id', sa.Uuid(), nullable=True),
         sa.Column('id', sa.Uuid(), nullable=False),
         sa.Column('created_at', sa.TIMESTAMP(timezone=True), nullable=False),
         sa.Column('name', sa.String(length=64), nullable=False),
         sa.Column('value', sa.String(length=64), nullable=True),
+        sa.ForeignKeyConstraint(
+            ['responsible_id'],
+            ['user.id'],
+        ),
         sa.ForeignKeyConstraint(
             ['service_id'],
             ['service.id'],
@@ -83,6 +74,7 @@ def upgrade() -> None:
     op.create_table(
         'release_requirement',
         sa.Column('release_id', sa.Uuid(), nullable=False),
+        sa.Column('responsible_id', sa.Uuid(), nullable=True),
         sa.Column('id', sa.Uuid(), nullable=False),
         sa.Column('created_at', sa.TIMESTAMP(timezone=True), nullable=False),
         sa.Column('name', sa.String(length=64), nullable=False),
@@ -90,6 +82,10 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(
             ['release_id'],
             ['release.id'],
+        ),
+        sa.ForeignKeyConstraint(
+            ['responsible_id'],
+            ['user.id'],
         ),
         sa.PrimaryKeyConstraint('id'),
     )
@@ -101,7 +97,6 @@ def downgrade() -> None:
     op.drop_table('release_requirement')
     op.drop_table('service_requirement')
     op.drop_table('release')
-    op.drop_table('refresh_session')
     op.drop_index(op.f('ix_user_email'), table_name='user')
     op.drop_table('user')
     op.drop_table('service')

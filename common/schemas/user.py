@@ -20,3 +20,7 @@ class UserResponse(pydantic.BaseModel):
 class UserLoginRequest(pydantic.BaseModel):
     first_factor: str
     password: str
+
+
+class UsersListResponse(pydantic.RootModel):
+    root: list[UserResponse]

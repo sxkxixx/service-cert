@@ -27,3 +27,9 @@ async def assert_user_exists(user_id: uuid.UUID) -> None:
     statement = sqlalchemy.select(db.User).filter(db.User.id == user_id)
     async with db.AsyncSession() as session:
         assert bool(await session.scalar(statement=statement))
+
+
+async def get_all() -> list[db.User]:
+    statement = sqlalchemy.select(db.User)
+    async with db.AsyncSession() as session:
+        return await session.scalars(statement=statement)
