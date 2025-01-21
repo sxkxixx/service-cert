@@ -38,7 +38,7 @@ async def service_with_requirement(service: db.Service) -> db.Service:
 async def service_space_generating() -> db.Service:
     return await ServiceFactory.create_async(
         confluence_page_link=None,
-        status=enums.ServiceStatus.GENERATING_CONFLUENCE_SPACE,
+        status=enums.ServiceStatus.NEW,
     )
 
 

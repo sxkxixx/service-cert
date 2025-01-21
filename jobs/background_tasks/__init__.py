@@ -1,1 +1,1 @@
-from . import generate_pages, generate_release_folder
+from . import generate_release_folder, generate_space

@@ -47,7 +47,7 @@ async def test(
     service_space_generating: db.Service,
     mock_create_space: mock.Mock,
 ) -> None:
-    await background_tasks.generate_pages.generate_space()
+    await background_tasks.generate_space.generate_space()
 
     service = await _get_service(service_id=service_space_generating.id)
     assert service.status == enums.ServiceStatus.NEED_CREATE_RELEASE_FOLDER
