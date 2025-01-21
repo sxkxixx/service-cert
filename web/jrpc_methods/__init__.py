@@ -10,6 +10,7 @@ from .delete_service_requirement import delete_service_requirement
 from .delete_user import delete_user
 from .edit_release_requirement import edit_release_requirement
 from .edit_service_requirement import edit_service_requirement
+from .edit_service_team import edit_service_team
 from .get_all_release_requirements import get_all_release_requirements
 from .get_all_service_requirements import get_all_service_requirements
 from .get_all_users import get_all_users

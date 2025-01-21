@@ -8,6 +8,7 @@ from common.db import base
 if typing.TYPE_CHECKING:
     from common.db.models.release import Release
     from common.db.models.requirements import ServiceRequirement
+    from common.db.models.team import Teammate
 
 
 class Service(base.BaseModel):
@@ -25,3 +26,4 @@ class Service(base.BaseModel):
         'ServiceRequirement',
         back_populates='service',
     )
+    team: Mapped[list['Teammate']] = relationship('Teammate', back_populates='service')

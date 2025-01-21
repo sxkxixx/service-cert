@@ -22,7 +22,10 @@ async def get_service_with_requirements(service_id: uuid.UUID) -> db.Service | N
     query = (
         sqlalchemy.select(db.Service)
         .filter(db.Service.id == service_id)
-        .options(selectinload(db.Service.service_requirements))
+        .options(
+            selectinload(db.Service.service_requirements),
+            selectinload(db.Service.team),
+        )
     )
 
     async with db.AsyncSession() as session:

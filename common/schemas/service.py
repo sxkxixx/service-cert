@@ -3,6 +3,7 @@ import uuid
 import pydantic
 
 from common.schemas.requirement import Requirement, RequirementCreate
+from common.schemas.team import Teammate
 
 
 class CreateServiceFromAnother(pydantic.BaseModel):
@@ -29,6 +30,10 @@ class ServiceResponse(pydantic.BaseModel):
     description: str | None
     confluence_page_link: str | None
     service_requirements: list[Requirement] = pydantic.Field(serialization_alias='requirements')
+
+
+class ServiceWithTeam(ServiceResponse):
+    team: list[Teammate]
 
 
 class ServiceListResponse(pydantic.BaseModel):

@@ -18,12 +18,12 @@ from ._rpc_server import entrypoint
 async def add_service_requirement(
     service_id: uuid.UUID,
     requirement: RequirementCreate,
-    user: db.User = fastapi.Depends(get_current_user),
+    responsible_user_id: uuid.UUID,
 ) -> Requirement:
     try:
         requirement = await sr_interactor.create_release_requirement(
             service_id=service_id,
-            responsible_id=user.id,
+            responsible_id=responsible_user_id,
             requirement=requirement,
         )
     except service_exc.ServiceNotFound:

@@ -1,6 +1,7 @@
 import uuid
 
 import sqlalchemy
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from common import db
 
@@ -33,3 +34,13 @@ async def get_all() -> list[db.User]:
     statement = sqlalchemy.select(db.User)
     async with db.AsyncSession() as session:
         return await session.scalars(statement=statement)
+
+
+def get_users_by_ids_stmt(
+    users_ids: list[uuid.UUID],
+    lock: bool = False,
+) -> sqlalchemy.Select:
+    statement = sqlalchemy.select(db.User).where(db.User.id.in_(users_ids))
+    if lock:
+        statement = statement.with_for_update()
+    return statement
