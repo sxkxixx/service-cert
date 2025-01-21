@@ -1,10 +1,11 @@
 import pytest
 from polyfactory import AsyncPersistenceProtocol
 
-from common import db
+from common import db, enums
 
 from .factory_mixin import AsyncPersistenceAlchemyMixin, CustomSQLAlchemyFactory
 from .release_requirement import ReleaseRequirementFactory
+from .service_space import ServiceSpaceFactory
 
 
 class AsyncReleasePersistence(AsyncPersistenceAlchemyMixin, AsyncPersistenceProtocol[db.Release]):
@@ -18,7 +19,11 @@ class ReleaseFactory(CustomSQLAlchemyFactory[db.Release]):
 
 @pytest.fixture
 async def release(service: db.Service) -> db.Release:
-    return await ReleaseFactory.create_async(service=service, semantic_version=None)
+    return await ReleaseFactory.create_async(
+        service=service,
+        semantic_version=None,
+        status=enums.ReleaseStatus.NEW,
+    )
 
 
 @pytest.fixture()
@@ -30,3 +35,12 @@ async def release_with_requirements(release: db.Release) -> db.Release:
         responsible_id=None,
     )
     return release
+
+
+@pytest.fixture()
+async def release_for_creating_page(
+    release_with_requirements: db.Release,
+    service: db.Service,
+) -> db.Release:
+    await ServiceSpaceFactory.create_async(service_id=release_with_requirements.service_id)
+    return release_with_requirements

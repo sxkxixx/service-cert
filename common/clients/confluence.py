@@ -67,21 +67,35 @@ class ConfluenceClient:
 
     async def create_page(
         self,
-        space_id: int,
+        space_id: str,
         status: str,
         title: str,
         parent_id: str | None = None,
         representation_content: dict | None = None,
-    ):
-        # POST https://asemyonov.atlassian.net/wiki/api/v2/pages
-        pass
+    ) -> dict:
+        async with httpx.AsyncClient(
+            base_url=self._base_url,
+            auth=self._basic_auth,
+            headers=self._default_headers,
+        ) as client:
+            response = await client.post(
+                url='/wiki/api/v2/pages',
+                json={
+                    'spaceId': space_id,
+                    'status': status,
+                    'title': title,
+                    'parentId': parent_id,
+                    'body': representation_content,
+                },
+            )
+        return response.json()
 
     async def create_folder(
         self,
         space_id: str,
         title: str,
         parent_id: str | None = None,
-    ):
+    ) -> httpx.Response:
         # https://asemyonov.atlassian.net/wiki/api/v2/folders
         async with httpx.AsyncClient(
             base_url=self._base_url,

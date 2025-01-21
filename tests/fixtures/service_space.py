@@ -6,20 +6,20 @@ from common import db
 from .factory_mixin import AsyncPersistenceAlchemyMixin, CustomSQLAlchemyFactory
 
 
-class AsyncServiceSpaceRequirementPersistence(
+class AsyncServiceSpacePersistence(
     AsyncPersistenceAlchemyMixin,
     AsyncPersistenceProtocol[db.ServiceSpace],
 ):
     pass
 
 
-class ServiceSpaceRequirementFactory(CustomSQLAlchemyFactory[db.ServiceSpace]):
+class ServiceSpaceFactory(CustomSQLAlchemyFactory[db.ServiceSpace]):
     __model__ = db.ServiceSpace
-    __async_persistence__ = AsyncServiceSpaceRequirementPersistence
+    __async_persistence__ = AsyncServiceSpacePersistence
 
 
 @pytest.fixture()
 async def service_space(service_need_create_release_folder: db.Service) -> db.ServiceSpace:
-    return await ServiceSpaceRequirementFactory.create_async(
+    return await ServiceSpaceFactory.create_async(
         service_id=service_need_create_release_folder.id,
     )

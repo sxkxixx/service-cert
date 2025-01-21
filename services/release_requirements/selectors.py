@@ -22,3 +22,13 @@ def get_by_id_stmt(requirement_id: uuid.UUID, lock: bool = False) -> sqlalchemy.
     if lock:
         return query.with_for_update()
     return query
+
+
+async def get_release_requirement_by_release_id(
+    release_id: uuid.UUID,
+) -> list[db.ReleaseRequirement]:
+    statement = sqlalchemy.select(db.ReleaseRequirement).where(
+        db.ReleaseRequirement.release_id == release_id
+    )
+    async with db.AsyncSession() as session:
+        return await session.scalars(statement=statement)

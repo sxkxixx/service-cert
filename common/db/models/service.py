@@ -4,8 +4,8 @@ import sqlalchemy
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from common import enums
 from common.db import base
-from common.enums import ServiceStatus
 
 if typing.TYPE_CHECKING:
     from common.db.models.confluence import ServiceSpace
@@ -19,10 +19,10 @@ class Service(base.BaseModel):
 
     name: Mapped[str] = mapped_column(sqlalchemy.String(length=128), nullable=False)
     description: Mapped[str | None] = mapped_column(sqlalchemy.String(length=512), nullable=True)
-    status: Mapped[ServiceStatus] = mapped_column(
-        ENUM(ServiceStatus, create_type=True),
+    status: Mapped[enums.ServiceStatus] = mapped_column(
+        ENUM(enums.ServiceStatus, create_type=True),
         nullable=False,
-        default=ServiceStatus.NEW,
+        default=enums.ServiceStatus.NEW,
     )
     confluence_page_link: Mapped[str | None] = mapped_column(
         sqlalchemy.String(length=64),

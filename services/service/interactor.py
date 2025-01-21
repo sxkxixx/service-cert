@@ -126,12 +126,6 @@ async def mark_service_need_update_homepage(
     )
 
 
-async def mark_need_create_release_folder(session: AsyncSession, service: db.Service) -> db.Service:
-    return await set_service_status(
-        session=session, service=service, status=enums.ServiceStatus.NEED_CREATE_RELEASE_FOLDER
-    )
-
-
 async def set_service_status(
     session: AsyncSession,
     service: db.Service,

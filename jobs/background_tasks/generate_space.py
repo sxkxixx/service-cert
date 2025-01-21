@@ -19,7 +19,9 @@ async def generate_space(*_args, **_kwargs) -> None:
             return
         logger.info('Mark service id=%s as generating_confluence_space')
         await service_interactor.set_service_status(
-            session=session, service=service, status=enums.ServiceStatus.GENERATING_CONFLUENCE_SPACE
+            session=session,
+            service=service,
+            status=enums.ServiceStatus.GENERATING_CONFLUENCE_SPACE,
         )
 
     logger.info('Generating space for service id=%s', service.id)
@@ -30,7 +32,9 @@ async def generate_space(*_args, **_kwargs) -> None:
         service = await session.scalar(
             statement=service_selectors.get_service_stmt(service_id=service.id, lock=True)
         )
-        await service_interactor.mark_need_create_release_folder(session=session, service=service)
+        await service_interactor.set_service_status(
+            session=session, service=service, status=enums.ServiceStatus.NEED_CREATE_RELEASE_FOLDER
+        )
         await service_space_interactor.create_service_space(
             session=session,
             service=service,

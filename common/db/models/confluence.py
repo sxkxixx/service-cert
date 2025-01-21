@@ -57,6 +57,8 @@ class ReleasePage(BaseModel):
         sqlalchemy.ForeignKey('release.id'),
         nullable=False,
     )
+    page_id: Mapped[str] = mapped_column(sqlalchemy.String(length=64), nullable=False)
+    webui_link: Mapped[str] = mapped_column(sqlalchemy.String(length=128), nullable=False)
 
     service_space: Mapped['ServiceSpace'] = relationship(
         'ServiceSpace', back_populates='release_pages'

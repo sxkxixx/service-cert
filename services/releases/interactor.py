@@ -2,9 +2,8 @@ import uuid
 
 import sqlalchemy
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
-from common import db
+from common import db, enums
 from common.schemas.requirement import RequirementCreate
 from services import exceptions
 from services.service.selectors import get_service_stmt
@@ -86,3 +85,17 @@ async def create_release_from_another(
         return await session.scalar(
             statement=get_release_with_requirements(release_id=new_release.id)
         )
+
+
+async def set_release_status(
+    session: AsyncSession,
+    release: db.Release,
+    status: enums.ReleaseStatus,
+) -> db.Release:
+    statement = (
+        sqlalchemy.update(db.Release)
+        .where(db.Release.id == release.id)
+        .values(status=status)
+        .returning(db.Release)
+    )
+    return await session.scalar(statement=statement)
