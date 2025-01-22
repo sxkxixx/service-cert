@@ -37,4 +37,5 @@ async def test_add_release_requirement_ok(
         'name': 'abcdef',
         'value': None,
         'responsible_id': str(user.id),
+        'type': None,
     }

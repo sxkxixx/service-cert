@@ -32,6 +32,7 @@ async def test_create_release_arbitrarily_ok(
                 'name': 'smth',
                 'value': None,
                 'responsible_id': None,
+                'type': None,
             },
         ],
     }

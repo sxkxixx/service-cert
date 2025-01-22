@@ -15,6 +15,7 @@ if typing.TYPE_CHECKING:
 class _Requirement:
     name: Mapped[str] = mapped_column(sqlalchemy.String(length=64), nullable=False)
     value: Mapped[str] = mapped_column(sqlalchemy.String(length=64), nullable=True)
+    type: Mapped[str] = mapped_column(sqlalchemy.String(length=32), nullable=True, default=None)
 
 
 class ServiceRequirement(base.BaseModel, _Requirement):

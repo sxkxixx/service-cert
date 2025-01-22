@@ -66,6 +66,7 @@ async def create_release_requirement(
                 release_id=release.id,
                 name=requirement.name,
                 value=requirement.value,
+                type=requirement.type,
             )
             .returning(db.ReleaseRequirement)
         )

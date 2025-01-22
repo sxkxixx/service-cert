@@ -88,6 +88,7 @@ async def test_create_by_another_ok(
                 'name': 'Требование релиза',
                 'value': None,
                 'responsible_id': None,
+                'type': None,
             }
         ],
     }

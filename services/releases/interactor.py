@@ -78,7 +78,7 @@ async def create_release_from_another(
             await session.scalar(
                 statement=(
                     sqlalchemy.insert(db.ReleaseRequirement)
-                    .values(name=req.name, value=None, release_id=new_release.id)
+                    .values(name=req.name, value=None, release_id=new_release.id, type=req.type)
                     .returning(db.ReleaseRequirement)
                 ),
             )

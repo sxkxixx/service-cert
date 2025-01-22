@@ -73,7 +73,7 @@ async def create_service_from_another(
         for req in source_service.service_requirements:
             await session.scalar(
                 sqlalchemy.insert(db.ServiceRequirement)
-                .values(name=req.name, value=None, service_id=new_service.id)
+                .values(name=req.name, value=None, service_id=new_service.id, type=req.type)
                 .returning(db.ServiceRequirement)
             )
 

@@ -59,6 +59,7 @@ async def test_create_service_with_requirements(jrpc_client) -> None:
                 'name': 'Github',
                 'value': 'https://github.com/sxkxixx/service-cert',
                 'responsible_id': None,
+                'type': None,
             },
         ],
     }
@@ -88,6 +89,7 @@ async def test_create_service_with_empty_requirement(jrpc_client) -> None:
                 'name': 'Github',
                 'value': None,
                 'responsible_id': None,
+                'type': None,
             }
         ],
     }
@@ -117,6 +119,7 @@ async def test_create_service_with_multiple_requirements(jrpc_client) -> None:
                 'id': dirty_equals.IsUUID(version=4),
                 'name': 'Github',
                 'value': None,
+                'type': None,
                 'responsible_id': None,
             },
             {
@@ -124,6 +127,7 @@ async def test_create_service_with_multiple_requirements(jrpc_client) -> None:
                 'name': 'YouTrack',
                 'value': 'https://www.jetbrains.com/ru-ru/youtrack/',
                 'responsible_id': None,
+                'type': None,
             },
         ],
     }

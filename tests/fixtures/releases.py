@@ -33,6 +33,7 @@ async def release_with_requirements(release: db.Release) -> db.Release:
         name='Требование релиза',
         value='Значение требования релиза',
         responsible_id=None,
+        type=None,
     )
     return release
 
