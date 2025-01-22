@@ -1,5 +1,7 @@
 import uuid
 
+import fastapi
+
 from common.schemas.requirement import Requirement
 from services import exceptions as service_exc
 from services.service_requirements import interactors as sr_interactor
@@ -13,13 +15,17 @@ from ._rpc_server import entrypoint
     errors=[web_exc.ObjectDoesNotExistsError],
 )
 async def edit_service_requirement(
-    requirement_id: uuid.UUID, name: str, value: str | None = None
+    requirement_id: uuid.UUID,
+    name: str,
+    value: str | None = None,
+    type_: str | None = fastapi.Query(default=None, alias='type'),
 ) -> Requirement:
     try:
         requirement = await sr_interactor.edit_service_requirement(
             requirement_id=requirement_id,
             name=name,
             value=value,
+            _type=type_,
         )
     except service_exc.RequirementNotFound:
         raise web_exc.ObjectDoesNotExistsError()
