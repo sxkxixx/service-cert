@@ -12,6 +12,7 @@ async def edit_service_requirement(
     requirement_id: uuid.UUID,
     name: str,
     value: str | None,
+    _type: str | None,
 ) -> db.ServiceRequirement:
     async with db.transaction() as session:
         requirement = await session.scalar(
@@ -22,7 +23,7 @@ async def edit_service_requirement(
         update_stmt = (
             sqlalchemy.update(db.ServiceRequirement)
             .where(db.ServiceRequirement.id == requirement_id)
-            .values(name=name, value=value)
+            .values(name=name, value=value, type=_type)
             .returning(db.ServiceRequirement)
         )
         return await session.scalar(statement=update_stmt)

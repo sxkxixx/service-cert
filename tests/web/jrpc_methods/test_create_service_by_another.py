@@ -30,6 +30,7 @@ async def test_create_service_ok(
                 'name': 'Требование сервиса',
                 'value': None,
                 'id': dirty_equals.IsUUID(version=4),
+                'type': None,
                 'responsible_id': None,
             }
         ],

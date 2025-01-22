@@ -57,6 +57,7 @@ async def test_create_by_release_without_requirements(
     assert response.result == {
         'id': dirty_equals.IsUUID(version=4),
         'service_id': str(release.service_id),
+        'description': None,
         'name': 'abcdef',
         'semantic_version': 'v0.0.1',
         'requirements': [],
@@ -70,6 +71,7 @@ async def test_create_by_another_ok(
     params = {
         'release': {
             'name': 'abcdef',
+            'description': 'description',
             'service_id': str(release_with_requirements.service_id),
             'semantic_version': 'v0.0.1',
             'source_release_id': str(release_with_requirements.id),
@@ -82,12 +84,14 @@ async def test_create_by_another_ok(
         'service_id': str(release_with_requirements.service_id),
         'name': 'abcdef',
         'semantic_version': 'v0.0.1',
+        'description': 'description',
         'requirements': [
             {
                 'id': dirty_equals.IsUUID(version=4),
                 'name': 'Требование релиза',
                 'value': None,
                 'responsible_id': None,
+                'type': None,
             }
         ],
     }

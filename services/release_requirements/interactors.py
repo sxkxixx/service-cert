@@ -14,6 +14,7 @@ async def edit_release_requirement(
     requirement_id: uuid.UUID,
     name: str,
     value: str | None,
+    _type: str | None,
 ) -> db.ReleaseRequirement:
     async with db.transaction() as session:
         requirement = await session.scalar(
@@ -24,7 +25,7 @@ async def edit_release_requirement(
         update_stmt = (
             sqlalchemy.update(db.ReleaseRequirement)
             .where(db.ReleaseRequirement.id == requirement_id)
-            .values(name=name, value=value)
+            .values(name=name, value=value, type=_type)
             .returning(db.ReleaseRequirement)
         )
         return await session.scalar(statement=update_stmt)
@@ -66,6 +67,7 @@ async def create_release_requirement(
                 release_id=release.id,
                 name=requirement.name,
                 value=requirement.value,
+                type=requirement.type,
             )
             .returning(db.ReleaseRequirement)
         )

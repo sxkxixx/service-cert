@@ -1,9 +1,10 @@
 import uuid
 
 import sqlalchemy
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from common import db
+from common import db, enums
 
 
 async def select_releases(
@@ -51,6 +52,19 @@ def get_release_stmt(release_id: uuid.UUID, lock: bool = False) -> sqlalchemy.Se
     return query
 
 
+def get_release_with_service_stmt(
+    release_id: uuid.UUID, lock: bool = False
+) -> sqlalchemy.Select[db.Release]:
+    query = (
+        sqlalchemy.select(db.Release)
+        .options(selectinload(db.Release.service))
+        .where(db.Release.id == release_id)
+    )
+    if lock:
+        return query.with_for_update()
+    return query
+
+
 async def get_releases_by_service_id(service_id: uuid.UUID) -> list[db.Release]:
     statement = (
         sqlalchemy.select(db.Release)
@@ -59,3 +73,12 @@ async def get_releases_by_service_id(service_id: uuid.UUID) -> list[db.Release]:
     )
     async with db.AsyncSession() as session:
         return await session.scalars(statement=statement)
+
+
+def release_for_create_page_stmt(session: AsyncSession, lock: bool = False) -> sqlalchemy.Select:
+    stmt = (
+        sqlalchemy.select(db.Release).where(db.Release.status == enums.ReleaseStatus.NEW).limit(1)
+    )
+    if lock:
+        stmt = stmt.with_for_update()
+    return stmt

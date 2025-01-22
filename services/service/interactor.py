@@ -4,7 +4,7 @@ import sqlalchemy
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from common import db
+from common import db, enums
 from services import exceptions
 from services.service import selectors as service_selectors
 
@@ -15,7 +15,6 @@ async def create_service(
     requirements: list,
 ) -> db.Service:
     async with db.transaction() as session:
-        session: AsyncSession
         statement = (
             sqlalchemy.insert(db.Service)
             .values(name=name, description=description)
@@ -74,7 +73,7 @@ async def create_service_from_another(
         for req in source_service.service_requirements:
             await session.scalar(
                 sqlalchemy.insert(db.ServiceRequirement)
-                .values(name=req.name, value=None, service_id=new_service.id)
+                .values(name=req.name, value=None, service_id=new_service.id, type=req.type)
                 .returning(db.ServiceRequirement)
             )
 
@@ -108,3 +107,54 @@ async def create_release_requirement(
             .returning(db.ServiceRequirement)
         )
         return await session.scalar(statement=insert_stmt)
+
+
+async def mark_service_as_generating_space_process(
+    session: AsyncSession,
+    service: db.Service,
+) -> db.Service:
+    return await set_service_status(
+        session=session, service=service, status=enums.ServiceStatus.GENERATING_CONFLUENCE_SPACE
+    )
+
+
+async def mark_service_need_update_homepage(
+    session: AsyncSession, service: db.Service
+) -> db.Service:
+    return await set_service_status(
+        session=session, service=service, status=enums.ServiceStatus.NEED_UPDATE_HOMEPAGE
+    )
+
+
+async def set_service_status(
+    session: AsyncSession,
+    service: db.Service,
+    status: enums.ServiceStatus,
+) -> db.Service:
+    statement = (
+        sqlalchemy.update(db.Service)
+        .where(db.Service.id == service.id)
+        .values(status=status)
+        .returning(db.Service)
+    )
+    return await session.scalar(statement=statement)
+
+
+async def update_service(
+    service_id: uuid.UUID,
+    **values_set,
+) -> db.Service:
+    async with db.transaction() as session:
+        statement = (
+            sqlalchemy.select(db.Service).where(db.Service.id == service_id).with_for_update()
+        )
+        service = await session.scalar(statement=statement)
+        if service is None:
+            raise exceptions.ServiceNotFound()
+        update_statement = (
+            sqlalchemy.update(db.Service)
+            .where(db.Service.id == service_id)
+            .values(**values_set)
+            .returning(db.Service)
+        )
+        return await session.scalar(statement=update_statement)

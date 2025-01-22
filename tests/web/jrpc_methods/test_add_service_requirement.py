@@ -35,4 +35,5 @@ async def test_create_service_requirement_ok(
         'name': 'abcdef',
         'value': None,
         'responsible_id': str(user.id),
+        'type': None,
     }

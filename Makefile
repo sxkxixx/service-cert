@@ -12,3 +12,5 @@ format:
 
 fix:
 	ruff check --select I --fix
+
+ruff-all: fix format lint

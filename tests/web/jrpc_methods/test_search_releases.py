@@ -25,6 +25,7 @@ async def test_search_release_with_nullable_name(
             'service_id': str(release.service_id),
             'name': str(release.name),
             'semantic_version': release.semantic_version,
+            'description': None,
         }
     ]
 

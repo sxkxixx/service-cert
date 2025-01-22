@@ -15,6 +15,7 @@ async def create_release_by_another(release: CreateReleaseFromAnother) -> Releas
         service = await release_interactor.create_release_from_another(
             name=release.name,
             service_id=release.service_id,
+            description=release.description,
             semantic_version=release.semantic_version,
             source_release_id=release.source_release_id,
         )

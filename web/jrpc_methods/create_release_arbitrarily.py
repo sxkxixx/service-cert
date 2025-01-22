@@ -17,6 +17,7 @@ from ._rpc_server import entrypoint
 async def create_release_arbitrarily(
     service_id: uuid.UUID,
     name: str,
+    description: str | None,
     semantic_version: str | None,
     requirements: list[RequirementCreate],
 ) -> ReleaseResponse:
@@ -24,6 +25,7 @@ async def create_release_arbitrarily(
         release = await release_interactor.create_release(
             service_id=service_id,
             name=name,
+            description=description,
             semantic_version=semantic_version,
             requirements=requirements,
         )

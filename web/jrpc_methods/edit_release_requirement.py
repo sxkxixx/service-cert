@@ -1,5 +1,7 @@
 import uuid
 
+import fastapi
+
 from common.schemas.requirement import Requirement
 from services import exceptions as service_exc
 from services.release_requirements import interactors as rr_interactor
@@ -16,12 +18,11 @@ async def edit_release_requirement(
     requirement_id: uuid.UUID,
     name: str,
     value: str | None = None,
+    type_: str | None = fastapi.Query(default=None, alias='type'),
 ) -> Requirement:
     try:
         requirement = await rr_interactor.edit_release_requirement(
-            requirement_id=requirement_id,
-            name=name,
-            value=value,
+            requirement_id=requirement_id, name=name, value=value, _type=type_
         )
     except service_exc.RequirementNotFound:
         raise web_exc.ObjectDoesNotExistsError()
