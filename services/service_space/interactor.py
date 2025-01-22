@@ -7,8 +7,8 @@ from common import db
 async def create_service_space(
     session: AsyncSession,
     service: db.Service,
-    ext_id: int,
-    homepage_id: int,
+    ext_id: str,
+    homepage_id: str,
     webui_link: str,
     key_alias: str,
 ) -> db.ServiceSpace:

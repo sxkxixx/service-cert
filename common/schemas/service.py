@@ -3,6 +3,7 @@ import uuid
 import pydantic
 
 from common.schemas.requirement import Requirement, RequirementCreate
+from common.schemas.service_space import ServiceSpace
 from common.schemas.team import Teammate
 
 
@@ -34,6 +35,10 @@ class ServiceResponse(pydantic.BaseModel):
 
 class ServiceWithTeam(ServiceResponse):
     team: list[Teammate]
+
+
+class FullServiceInfo(ServiceWithTeam):
+    service_space: ServiceSpace | None = None
 
 
 class ServiceListResponse(pydantic.BaseModel):

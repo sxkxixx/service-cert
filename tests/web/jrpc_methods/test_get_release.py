@@ -26,12 +26,14 @@ async def test_get_release_no_requirements(
         'semantic_version': release.semantic_version,
         'description': release.description,
         'requirements': [],
+        'release_page': None,
     }
 
 
 async def test_get_release_with_requirements(
     jrpc_client,
     release_with_requirements: db.Release,
+    release_page: db.ReleasePage,
 ) -> None:
     response = await jrpc_client(
         method=method, params={'release_id': str(release_with_requirements.id)}
@@ -52,4 +54,10 @@ async def test_get_release_with_requirements(
                 'responsible_id': None,
             }
         ],
+        'release_page': {
+            'page_id': release_page.page_id,
+            'release_id': str(release_page.release_id),
+            'service_space_id': str(release_page.service_space_id),
+            'webui_link': '',
+        },
     }

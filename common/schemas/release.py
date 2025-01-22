@@ -2,6 +2,7 @@ import uuid
 
 import pydantic
 
+from common.schemas.release_page import ReleasePageResponse
 from common.schemas.requirement import Requirement
 
 
@@ -12,6 +13,10 @@ class ReleaseResponse(pydantic.BaseModel):
     description: str | None
     semantic_version: str | None
     release_requirements: list[Requirement] = pydantic.Field(serialization_alias='requirements')
+
+
+class FullReleaseResponse(ReleaseResponse):
+    release_page: ReleasePageResponse | None = None
 
 
 class ReleaseListResponse(pydantic.BaseModel):

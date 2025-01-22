@@ -4,6 +4,7 @@ from polyfactory import AsyncPersistenceProtocol
 from common import db, enums
 
 from .factory_mixin import AsyncPersistenceAlchemyMixin, CustomSQLAlchemyFactory
+from .release_page import ReleasePageFactory
 from .release_requirement import ReleaseRequirementFactory
 from .service_space import ServiceSpaceFactory
 

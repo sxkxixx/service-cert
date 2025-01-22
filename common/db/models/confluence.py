@@ -23,10 +23,10 @@ class ServiceSpace(BaseModel):
         sqlalchemy.String(length=128),
         nullable=False,
     )
-    homepage_id: Mapped[int] = mapped_column(sqlalchemy.Integer(), nullable=False)
+    homepage_id: Mapped[str] = mapped_column(sqlalchemy.String(length=64), nullable=False)
     release_folder_id: Mapped[str] = mapped_column(sqlalchemy.String(length=64), nullable=True)
-    ext_id: Mapped[int] = mapped_column(
-        sqlalchemy.Integer(),
+    ext_id: Mapped[str] = mapped_column(
+        sqlalchemy.String(length=64),
         nullable=False,
         unique=True,
         index=True,
@@ -63,4 +63,4 @@ class ReleasePage(BaseModel):
     service_space: Mapped['ServiceSpace'] = relationship(
         'ServiceSpace', back_populates='release_pages'
     )
-    release: Mapped['Release'] = relationship('Release', back_populates='release_pages')
+    release: Mapped['Release'] = relationship('Release', back_populates='release_page')

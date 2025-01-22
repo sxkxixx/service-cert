@@ -17,6 +17,7 @@ from ._rpc_server import entrypoint
 async def edit_service_requirement(
     requirement_id: uuid.UUID,
     name: str,
+    responsible_id: uuid.UUID,
     value: str | None = None,
     type_: str | None = fastapi.Query(default=None, alias='type'),
 ) -> Requirement:
@@ -24,6 +25,7 @@ async def edit_service_requirement(
         requirement = await sr_interactor.edit_service_requirement(
             requirement_id=requirement_id,
             name=name,
+            responsible_id=responsible_id,
             value=value,
             _type=type_,
         )

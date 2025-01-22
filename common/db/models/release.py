@@ -38,6 +38,4 @@ class Release(base.BaseModel):
         'ReleaseRequirement',
         back_populates='release',
     )
-    release_pages: Mapped[list['ReleasePage']] = relationship(
-        'ReleasePage', back_populates='release'
-    )
+    release_page: Mapped['ReleasePage'] = relationship('ReleasePage', back_populates='release')

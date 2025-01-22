@@ -14,13 +14,14 @@ async def get_services(offset: int, limit: int) -> list[db.Service]:
     return result.scalars().all()
 
 
-async def get_service_with_requirements(service_id: uuid.UUID) -> db.Service | None:
+async def get_full_service_info(service_id: uuid.UUID) -> db.Service | None:
     query = (
         sqlalchemy.select(db.Service)
         .filter(db.Service.id == service_id)
         .options(
             selectinload(db.Service.service_requirements),
             selectinload(db.Service.team),
+            selectinload(db.Service.service_space),
         )
     )
 

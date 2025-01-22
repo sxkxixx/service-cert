@@ -29,11 +29,11 @@ async def mock_create_space(service_space_generating: db.Service) -> None:
     with mock.patch(
         'common.confluence.space.create_service_space',
         return_value=ConfluenceSpaceResponse(
-            id=987654321,
+            id='987654321',
             key='f9d3bee527d91ccc5f057da4e83b7667',
             alias='f9d3bee527d91ccc5f057da4e83b7667',
             name=service_space_generating.name,
-            homepage={'id': 1234567890},
+            homepage={'id': '1234567890'},
             _links={
                 'base': 'https://confluence.net',
                 'webui': '/spaces/f9d3bee527d91ccc5f057da4e83b7667',
@@ -57,4 +57,4 @@ async def test(
     assert (
         service_space.webui_link == 'https://confluence.net/spaces/f9d3bee527d91ccc5f057da4e83b7667'
     )
-    assert service_space.ext_id == 987654321
+    assert service_space.ext_id == '987654321'

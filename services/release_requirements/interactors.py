@@ -13,6 +13,7 @@ from . import selectors
 async def edit_release_requirement(
     requirement_id: uuid.UUID,
     name: str,
+    responsible_id: uuid.UUID,
     value: str | None,
     _type: str | None,
 ) -> db.ReleaseRequirement:
@@ -25,7 +26,7 @@ async def edit_release_requirement(
         update_stmt = (
             sqlalchemy.update(db.ReleaseRequirement)
             .where(db.ReleaseRequirement.id == requirement_id)
-            .values(name=name, value=value, type=_type)
+            .values(name=name, value=value, type=_type, responsible_id=responsible_id)
             .returning(db.ReleaseRequirement)
         )
         return await session.scalar(statement=update_stmt)

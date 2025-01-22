@@ -2,7 +2,7 @@ import pydantic
 
 
 class ConfluenceSpaceResponse(pydantic.BaseModel):
-    id: int
+    id: str
     key: str
     alias: str
     name: str

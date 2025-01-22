@@ -1,6 +1,6 @@
 import uuid
 
-from common.schemas.service import ServiceWithTeam
+from common.schemas.service import FullServiceInfo, ServiceWithTeam
 from services.service import selectors as service_selectors
 from web import exceptions as web_exc
 
@@ -12,8 +12,8 @@ from ._rpc_server import entrypoint
     description='Get service by id',
     errors=[web_exc.ObjectDoesNotExistsError],
 )
-async def get_service(service_id: uuid.UUID) -> ServiceWithTeam:
-    service = await service_selectors.get_service_with_requirements(service_id=service_id)
+async def get_service(service_id: uuid.UUID) -> FullServiceInfo:
+    service = await service_selectors.get_full_service_info(service_id=service_id)
     if service is None:
         raise web_exc.ObjectDoesNotExistsError()
-    return ServiceWithTeam.model_validate(service, from_attributes=True)
+    return FullServiceInfo.model_validate(service, from_attributes=True)

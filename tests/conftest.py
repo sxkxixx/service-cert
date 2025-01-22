@@ -8,4 +8,5 @@ pytest_plugins = [
     'tests.fixtures.service_requirements',
     'tests.fixtures.release_requirement',
     'tests.fixtures.service_space',
+    'tests.fixtures.release_page',
 ]

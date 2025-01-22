@@ -39,7 +39,7 @@ async def generate_space(*_args, **_kwargs) -> None:
             session=session,
             service=service,
             webui_link=service_space.webui_url,
-            ext_id=service_space.id,
+            ext_id=str(service_space.id),
             key_alias=service_space.key,
-            homepage_id=service_space.homepage_id,
+            homepage_id=str(service_space.homepage_id),
         )
