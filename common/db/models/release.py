@@ -22,6 +22,7 @@ class Release(base.BaseModel):
         nullable=False,
     )
     name: Mapped[str] = mapped_column(sqlalchemy.String(length=128), nullable=False)
+    description: Mapped[str] = mapped_column(sqlalchemy.String(length=512), nullable=True)
     status: Mapped[enums.ReleaseStatus] = mapped_column(
         ENUM(enums.ReleaseStatus, create_type=True),
         nullable=False,

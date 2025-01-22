@@ -138,3 +138,23 @@ async def set_service_status(
         .returning(db.Service)
     )
     return await session.scalar(statement=statement)
+
+
+async def update_service(
+    service_id: uuid.UUID,
+    **values_set,
+) -> db.Service:
+    async with db.transaction() as session:
+        statement = (
+            sqlalchemy.select(db.Service).where(db.Service.id == service_id).with_for_update()
+        )
+        service = await session.scalar(statement=statement)
+        if service is None:
+            raise exceptions.ServiceNotFound()
+        update_statement = (
+            sqlalchemy.update(db.Service)
+            .where(db.Service.id == service_id)
+            .values(**values_set)
+            .returning(db.Service)
+        )
+        return await session.scalar(statement=update_statement)

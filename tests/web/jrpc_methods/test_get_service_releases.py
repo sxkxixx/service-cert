@@ -26,5 +26,6 @@ async def test_service_with_release(jrpc_client, release: db.Release) -> None:
             'service_id': str(release.service_id),
             'name': release.name,
             'semantic_version': release.semantic_version,
+            'description': release.description,
         }
     ]

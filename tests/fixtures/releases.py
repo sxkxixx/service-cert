@@ -23,6 +23,7 @@ async def release(service: db.Service) -> db.Release:
         service=service,
         semantic_version=None,
         status=enums.ReleaseStatus.NEW,
+        description=None,
     )
 
 

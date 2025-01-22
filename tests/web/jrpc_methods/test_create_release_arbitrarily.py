@@ -15,6 +15,7 @@ async def test_create_release_arbitrarily_ok(
         'service_id': str(service.id),
         'name': 'Релиз 1',
         'semantic_version': 'v0.0.1',
+        'description': 'description',
         'requirements': [
             {'name': 'smth', 'value': None},
         ],
@@ -26,6 +27,7 @@ async def test_create_release_arbitrarily_ok(
         'service_id': str(service.id),
         'name': 'Релиз 1',
         'semantic_version': 'v0.0.1',
+        'description': 'description',
         'requirements': [
             {
                 'id': dirty_equals.IsUUID(version=4),
@@ -43,6 +45,7 @@ async def test_service_not_found(jrpc_client) -> None:
         'service_id': str(uuid.uuid4()),
         'name': 'Релиз 1',
         'semantic_version': 'v0.0.1',
+        'description': 'description',
         'requirements': [
             {'name': 'smth', 'value': None},
         ],

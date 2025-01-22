@@ -22,10 +22,7 @@ async def edit_release_requirement(
 ) -> Requirement:
     try:
         requirement = await rr_interactor.edit_release_requirement(
-            requirement_id=requirement_id,
-            name=name,
-            value=value,
-            _type=type_
+            requirement_id=requirement_id, name=name, value=value, _type=type_
         )
     except service_exc.RequirementNotFound:
         raise web_exc.ObjectDoesNotExistsError()

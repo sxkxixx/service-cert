@@ -24,6 +24,7 @@ async def test_get_release_no_requirements(
         'service_id': str(release.service_id),
         'name': release.name,
         'semantic_version': release.semantic_version,
+        'description': release.description,
         'requirements': [],
     }
 
@@ -41,6 +42,7 @@ async def test_get_release_with_requirements(
         'service_id': str(release_with_requirements.service_id),
         'name': release_with_requirements.name,
         'semantic_version': release_with_requirements.semantic_version,
+        'description': release_with_requirements.description,
         'requirements': [
             {
                 'id': dirty_equals.IsUUID(version=4),
